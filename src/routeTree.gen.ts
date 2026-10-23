@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutUsRouteImport } from './routes/about-us'
+import { Route as ContactUsRouteImport } from './routes/contact-us'
+import { Route as HeronChatWidgetRouteImport } from './routes/heron-chat-widget'
+import { Route as HeronDashboardRouteImport } from './routes/heron-dashboard'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as ResourcesRouteImport } from './routes/resources'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutUsRoute = AboutUsRouteImport.update({
+  id: '/about-us',
+  path: '/about-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactUsRoute = ContactUsRouteImport.update({
+  id: '/contact-us',
+  path: '/contact-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeronChatWidgetRoute = HeronChatWidgetRouteImport.update({
+  id: '/heron-chat-widget',
+  path: '/heron-chat-widget',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeronDashboardRoute = HeronDashboardRouteImport.update({
+  id: '/heron-dashboard',
+  path: '/heron-dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
+  '/contact-us': typeof ContactUsRoute
+  '/heron-chat-widget': typeof HeronChatWidgetRoute
+  '/heron-dashboard': typeof HeronDashboardRoute
+  '/pricing': typeof PricingRoute
+  '/resources': typeof ResourcesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
+  '/contact-us': typeof ContactUsRoute
+  '/heron-chat-widget': typeof HeronChatWidgetRoute
+  '/heron-dashboard': typeof HeronDashboardRoute
+  '/pricing': typeof PricingRoute
+  '/resources': typeof ResourcesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
+  '/contact-us': typeof ContactUsRoute
+  '/heron-chat-widget': typeof HeronChatWidgetRoute
+  '/heron-dashboard': typeof HeronDashboardRoute
+  '/pricing': typeof PricingRoute
+  '/resources': typeof ResourcesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about-us'
+    | '/contact-us'
+    | '/heron-chat-widget'
+    | '/heron-dashboard'
+    | '/pricing'
+    | '/resources'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about-us'
+    | '/contact-us'
+    | '/heron-chat-widget'
+    | '/heron-dashboard'
+    | '/pricing'
+    | '/resources'
+  id:
+    | '__root__'
+    | '/'
+    | '/about-us'
+    | '/contact-us'
+    | '/heron-chat-widget'
+    | '/heron-dashboard'
+    | '/pricing'
+    | '/resources'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutUsRoute: typeof AboutUsRoute
+  ContactUsRoute: typeof ContactUsRoute
+  HeronChatWidgetRoute: typeof HeronChatWidgetRoute
+  HeronDashboardRoute: typeof HeronDashboardRoute
+  PricingRoute: typeof PricingRoute
+  ResourcesRoute: typeof ResourcesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about-us': {
+      id: '/about-us'
+      path: '/about-us'
+      fullPath: '/about-us'
+      preLoaderRoute: typeof AboutUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact-us': {
+      id: '/contact-us'
+      path: '/contact-us'
+      fullPath: '/contact-us'
+      preLoaderRoute: typeof ContactUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/heron-chat-widget': {
+      id: '/heron-chat-widget'
+      path: '/heron-chat-widget'
+      fullPath: '/heron-chat-widget'
+      preLoaderRoute: typeof HeronChatWidgetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/heron-dashboard': {
+      id: '/heron-dashboard'
+      path: '/heron-dashboard'
+      fullPath: '/heron-dashboard'
+      preLoaderRoute: typeof HeronDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutUsRoute: AboutUsRoute,
+  ContactUsRoute: ContactUsRoute,
+  HeronChatWidgetRoute: HeronChatWidgetRoute,
+  HeronDashboardRoute: HeronDashboardRoute,
+  PricingRoute: PricingRoute,
+  ResourcesRoute: ResourcesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
