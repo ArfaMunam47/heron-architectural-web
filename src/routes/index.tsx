@@ -23,7 +23,7 @@ function Index() {
       <main>
         <HeroStage />
         <section className="grid border-t border-border md:grid-cols-[1.15fr_0.65fr_0.2fr]">
-          <h1 className="display p-4 text-[clamp(2rem,4.2vw,4rem)] md:pt-3">
+          <h1 className="display p-4 text-[clamp(1.8rem,3.4vw,3.6rem)] md:pt-3">
             <Reveal>An AI agent that works</Reveal>
             <Reveal delay={120}>inside your design tools</Reveal>
           </h1>
