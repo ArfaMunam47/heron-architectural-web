@@ -63,7 +63,7 @@ function Contact() {
         </div>
         <div className="flex flex-col border-l border-border">
           <div className="grid grid-cols-3 border-b border-border">
-            {[["New business", "business@bear.plus"], ["General inquiries", "hello@bear.plus"], ["Address", "60 Martin Pl, Sydney, NSW 2000, Australia"]].map(([k, v], i) => (
+            {([["New business", "business@bear.plus"], ["General inquiries", "hello@bear.plus"], ["Address", "60 Martin Pl, Sydney, NSW 2000, Australia"]] as const).map(([k, v], i) => (
               <div key={k} className={`flex min-h-24 flex-col justify-between p-4 ${i ? "border-l border-border" : ""}`}>
                 <span className="font-mono text-[8px] uppercase text-muted-foreground">{k}</span>
                 {v.includes("@") ? <a href={`mailto:${v}`} className="text-[11px] transition-colors hover:text-primary">{v}</a> : <span className="text-[11px]">{v}</span>}

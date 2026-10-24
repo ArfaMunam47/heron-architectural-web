@@ -27,7 +27,7 @@ function Mark({ i }: { i: number }) {
 
 export function Brands() {
   const [off, setOff] = useState(0);
-  const shown = Array.from({ length: 6 }, (_, k) => brands[(k + off) % brands.length]);
+  const shown = Array.from({ length: 6 }, (_, k) => brands[(k + off) % brands.length]!);
   return (
     <div className="grid grid-cols-[44px_repeat(6,1fr)_44px] border-t border-border">
       <button aria-label="Previous" onClick={() => setOff((o) => (o + brands.length - 1) % brands.length)} className="flex items-center justify-center text-muted-foreground transition-colors hover:text-primary">←</button>

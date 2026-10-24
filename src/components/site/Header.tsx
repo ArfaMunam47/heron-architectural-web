@@ -46,7 +46,7 @@ export function Header({ compact = false }: { compact?: boolean }) {
                     <Link
                       key={c.label}
                       to={c.to}
-                      hash={c.hash}
+                      {...(c.hash ? { hash: c.hash } : {})}
                       className="block border-b border-border px-1.5 py-1.5 label text-muted-foreground transition-colors last:border-b-0 hover:bg-ink hover:text-ink-foreground"
                     >
                       {c.label}
