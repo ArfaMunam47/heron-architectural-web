@@ -3,10 +3,13 @@ import { Header } from "@/components/site/Header";
 import { HeroStage } from "@/components/site/HeroStage";
 import { DiscoverMore, Reveal, Ticker } from "@/components/site/Bits";
 import { LogoMark } from "@/components/site/Logo";
+import { HomeStory } from "@/components/site/Story";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Heron AI — An AI agent that works inside your design tools" },
       { name: "description", content: "Heron reviews your model, identifies issues and proposes solutions. Upon approval, it edits automatically." },
       { property: "og:title", content: "Heron AI — An AI agent inside your design tools" },
@@ -56,10 +59,7 @@ function Index() {
           </div>
         </section>
 
-        <footer className="flex items-center justify-between border-t border-border px-4 py-3 label text-muted-foreground">
-          <span className="flex items-center gap-2"><LogoMark className="h-4 w-4" /> © 2026 Heron AI</span>
-          <span>Concept by Bearplus</span>
-        </footer>
+        <HomeStory />
       </main>
     </>
   );

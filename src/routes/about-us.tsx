@@ -6,6 +6,8 @@ import { Corners } from "@/components/site/Bits";
 export const Route = createFileRoute("/about-us")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "About — Heron AI" },
       { name: "description", content: "Heron AI builds an AI agent for architects that works inside BIM and Revit." },
       { property: "og:title", content: "About Heron AI" },

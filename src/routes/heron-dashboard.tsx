@@ -3,10 +3,16 @@ import { Header } from "@/components/site/Header";
 import { Brands } from "@/components/site/Brands";
 import { DiscoverMore, Reveal } from "@/components/site/Bits";
 import landscape from "@/assets/landscape.jpg";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { TaskDemo } from "@/components/site/TaskDemo";
 
 export const Route = createFileRoute("/heron-dashboard")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Heron Dashboard — Every change, flag and approval in one place" },
       { name: "description", content: "See what the agent is doing across all your projects: issues flagged, edits made, and approvals waiting." },
       { property: "og:title", content: "Heron Dashboard" },
@@ -21,6 +27,8 @@ const activity = ["Duplicate wall types detected", "Door family missing paramete
 const pending = ["Rename 284 rooms", "Merge 17 duplicate families", "Delete 39 unused types"];
 
 function Dashboard() {
+  const [review, setReview] = useState<string | null>(null);
+  const [approved, setApproved] = useState<string[]>([]);
   return (
     <>
       <Header />
@@ -38,7 +46,7 @@ function Dashboard() {
               <div className="border-l border-border"><DiscoverMore to="/pricing" /></div>
             </div>
           </div>
-          <div className="relative overflow-hidden border-l border-border">
+          <div className="relative min-h-[420px] overflow-hidden border-l border-border">
             <img src={landscape} width={1200} height={1008} alt="Black and white mountain valley" className="absolute inset-x-0 bottom-0 h-1/2 w-full object-cover grayscale" loading="lazy" />
             <div className="relative mx-auto mt-8 w-[66%] min-w-72 border border-border bg-background p-2 fade-in [animation-delay:300ms]">
               <div className="grid grid-cols-4 gap-1.5">
@@ -67,13 +75,23 @@ function Dashboard() {
               {pending.map((p) => (
                 <div key={p} className="flex items-center justify-between border-b border-border px-2 py-2">
                   <span className="text-[7px] font-bold uppercase">{p}</span>
-                  <button className="bg-primary px-2 py-0.5 font-mono text-[6px] uppercase text-primary-foreground transition-colors hover:bg-ink">Review →</button>
+                  <Button size="sm" disabled={approved.includes(p)} onClick={() => setReview(p)} className="h-7 px-2 font-mono text-[9px] uppercase shadow-none">{approved.includes(p) ? "Approved" : "Review →"}</Button>
                 </div>
               ))}
             </div>
           </div>
         </section>
         <Brands />
+        <TaskDemo />
+        <Dialog open={review !== null} onOpenChange={open => { if (!open) setReview(null); }}>
+          <DialogContent className="max-w-[calc(100%-2rem)] shadow-none sm:max-w-lg">
+            <p className="label text-primary">Illustrative approval / Sample model</p>
+            <DialogTitle className="display pr-6 text-2xl">{review}</DialogTitle>
+            <DialogDescription>This is a simulated review. Approving updates this preview only; no real model is changed.</DialogDescription>
+            <div className="grid grid-cols-2 border-y border-border text-sm"><div className="p-4"><p className="label text-muted-foreground">Before</p><p className="mt-3">{review?.startsWith('Rename') ? 'Mixed room names' : review?.startsWith('Merge') ? 'Repeated family definitions' : 'Unreferenced types'}</p></div><div className="border-l border-border p-4"><p className="label text-primary">Proposed</p><p className="mt-3">{review?.startsWith('Rename') ? 'Consistent project naming' : review?.startsWith('Merge') ? 'One definition per family' : 'Remove unused types'}</p></div></div>
+            <Button onClick={() => { if (review) setApproved(a => [...a, review]); setReview(null); }} className="label shadow-none">Approve sample change →</Button>
+          </DialogContent>
+        </Dialog>
       </main>
     </>
   );

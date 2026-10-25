@@ -1,11 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Header } from "@/components/site/Header";
+import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/Bits";
 
 export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Pricing — Heron AI" },
       { name: "description", content: "Start free, then let Heron work inside your tools. Move up, down, or cancel whenever you like." },
       { property: "og:title", content: "Pricing — Pay for the hours you get back" },
@@ -48,13 +51,13 @@ function Pricing() {
           <div className="hidden md:block" />
           <div className="grid grid-cols-2 border-l border-border">
             {[false, true].map((y) => (
-              <button key={String(y)} onClick={() => setYearly(y)} className={`py-2 label transition-colors ${yearly === y ? "bg-ink text-ink-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+              <Button variant="ghost" key={String(y)} aria-pressed={yearly === y} onClick={() => setYearly(y)} className={`py-2 label transition-colors ${yearly === y ? "bg-ink text-ink-foreground" : "text-muted-foreground hover:text-foreground"}`}>
                 {y ? <><span className="text-primary">✦</span> Yearly (save 15%)</> : "Monthly"}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
-        <div className="grid border-t border-border md:grid-cols-[1fr_repeat(4,0.75fr)]">
+        <div className="grid grid-cols-2 border-t border-border md:grid-cols-[1fr_repeat(4,0.75fr)]">
           <div className="hidden md:block" />
           {plans.map((p, i) => (
             <div key={p.n} className="flex flex-col border-l border-border p-4 fade-in" style={{ animationDelay: `${i * 100}ms` }}>
@@ -70,8 +73,12 @@ function Pricing() {
             </div>
           ))}
         </div>
+        <p className="border-t border-border px-4 py-3 label text-muted-foreground">Illustrative plans and prices · Not a subscription offer{yearly ? ' · Annual billing shown as monthly equivalent' : ''}</p>
+        <div className="overflow-x-auto" role="region" aria-label="Plan feature comparison" tabIndex={0}>
+        <div className="min-w-[640px]">
+        <div className="grid grid-cols-[1fr_repeat(4,0.75fr)] border-t border-border"><span className="p-4 label">Compare plans</span>{plans.map(p => <span key={p.n} className="border-l border-border p-4 label">{p.n}</span>)}</div>
         {rows.map(([k, vals]) => (
-          <div key={k} className="grid border-t border-border md:grid-cols-[1fr_repeat(4,0.75fr)]">
+          <div key={k} className="grid grid-cols-[1fr_repeat(4,0.75fr)] border-t border-border">
             <div className="p-4 text-[12px]">{k}</div>
             {vals.map((v, i) => (
               <div key={i} className="border-l border-border p-4 text-[12px]">
@@ -80,6 +87,7 @@ function Pricing() {
             ))}
           </div>
         ))}
+        </div></div>
       </main>
     </>
   );

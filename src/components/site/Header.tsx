@@ -1,5 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Logo, LogoMark } from "./Logo";
 
 type Item = { label: string; to: string; children?: { label: string; to: string; hash?: string }[] };
@@ -20,6 +22,7 @@ const items: Item[] = [
 
 export function Header({ compact = false }: { compact?: boolean }) {
   const [open, setOpen] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const { pathname } = useLocation();
   return (
     <header className="sticky top-0 z-40 flex h-10 border-b border-border bg-background">
@@ -30,7 +33,7 @@ export function Header({ compact = false }: { compact?: boolean }) {
         {items.map((it) => {
           const active = pathname === it.to || it.children?.some((c) => c.to === pathname);
           return (
-            <div key={it.label} className="relative" onMouseEnter={() => setOpen(it.label)} onMouseLeave={() => setOpen(null)}>
+            <div key={it.label} className="relative" onMouseEnter={() => setOpen(it.label)} onMouseLeave={() => setOpen(null)} onFocus={() => setOpen(it.label)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(null); }}>
               <Link
                 to={it.to}
                 className={`group relative flex h-10 w-[92px] border-l border-border px-1.5 pt-1.5 label transition-colors lg:w-[92px] ${active ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
@@ -65,6 +68,8 @@ export function Header({ compact = false }: { compact?: boolean }) {
           <span className="absolute bottom-1 right-1.5 text-[11px] transition-transform group-hover:translate-x-0.5">→</span>
         </Link>
       </nav>
+      <Button variant="ghost" size="icon" className="h-10 w-10 border-l border-border md:hidden" aria-label={mobileOpen ? "Close navigation" : "Open navigation"} aria-expanded={mobileOpen} onClick={() => setMobileOpen(o => !o)}>{mobileOpen ? <X /> : <Menu />}</Button>
+      {mobileOpen && <nav aria-label="Mobile navigation" className="absolute inset-x-0 top-10 border-b border-border bg-background md:hidden">{items.map(it => <div key={it.label} className="border-t border-border"><Link to={it.to} onClick={() => setMobileOpen(false)} className="block px-4 py-3 label">{it.label} ↗</Link>{it.children && <div className="grid grid-cols-2 border-t border-border">{it.children.map(c => <Link key={c.label} to={c.to} {...(c.hash ? { hash: c.hash } : {})} onClick={() => setMobileOpen(false)} className="border-r border-border px-4 py-3 label text-muted-foreground">{c.label}</Link>)}</div>}</div>)}<Link to="/contact-us" onClick={() => setMobileOpen(false)} className="block border-t border-border px-4 py-3 label text-primary">Contact us →</Link></nav>}
     </header>
   );
 }

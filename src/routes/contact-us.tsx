@@ -2,11 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Header } from "@/components/site/Header";
 import { Reveal } from "@/components/site/Bits";
+import { Button } from "@/components/ui/button";
 import building from "@/assets/contact-building.jpg";
 
 export const Route = createFileRoute("/contact-us")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Contact — Get in touch with Heron AI" },
       { name: "description", content: "Reach the Heron AI team for new business or general inquiries." },
       { property: "og:title", content: "Get in touch — Heron AI" },
@@ -43,8 +46,9 @@ function Contact() {
           <h2 className="display border-b border-border p-4 text-[clamp(1.4rem,2.2vw,2.2rem)]">Please fill out this form</h2>
           {sent ? (
             <div className="p-4 fade-in">
-              <p className="label text-primary">Message received —</p>
-              <p className="mt-2 text-[15px]">Thanks. We'll be in touch within two working days.</p>
+              <p className="label text-primary">Sample form complete —</p>
+              <p className="mt-2 text-[15px]">This demonstration does not send a message. Use the email links to contact the agency.</p>
+              <Button variant="outline" className="mt-4 shadow-none" onClick={() => setSent(false)}>Start again →</Button>
             </div>
           ) : (
             <form onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
@@ -55,9 +59,9 @@ function Contact() {
               <Field name="email" label="Email" type="email" />
               <Field name="phone" label="Phone number" type="tel" />
               <Field name="message" label="Message" area />
-              <button type="submit" className="group flex w-full items-center justify-between px-4 py-4 text-left text-xl font-semibold uppercase tracking-tight text-muted-foreground/70 transition-colors hover:bg-primary hover:text-primary-foreground">
+              <Button type="submit" variant="ghost" className="group flex h-auto w-full items-center justify-between px-4 py-4 text-left text-xl font-semibold uppercase tracking-tight text-muted-foreground/70 transition-colors hover:bg-primary hover:text-primary-foreground">
                 Submit <span className="text-base transition-transform group-hover:translate-x-1">→</span>
-              </button>
+              </Button>
             </form>
           )}
         </div>
@@ -66,7 +70,7 @@ function Contact() {
             {([["New business", "business@bear.plus"], ["General inquiries", "hello@bear.plus"], ["Address", "60 Martin Pl, Sydney, NSW 2000, Australia"]] as const).map(([k, v], i) => (
               <div key={k} className={`flex min-h-24 flex-col justify-between p-4 ${i ? "border-l border-border" : ""}`}>
                 <span className="font-mono text-[8px] uppercase text-muted-foreground">{k}</span>
-                {v.includes("@") ? <a href={`mailto:${v}`} className="text-[11px] transition-colors hover:text-primary">{v}</a> : <span className="text-[11px]">{v}</span>}
+                {v.includes("@") ? <a href={`mailto:${v}`} className="break-all text-[11px] transition-colors hover:text-primary">{v}</a> : <span className="break-words text-[11px]">{v}</span>}
               </div>
             ))}
           </div>
