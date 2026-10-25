@@ -127,5 +127,15 @@
 @utility grow-y { transform-origin: top; animation: line-grow-y 1.2s var(--ease-arch) both; }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+@layer base {
+  select:disabled { opacity: 0.7; }
+  a:focus-visible { outline: 1px solid var(--ring); outline-offset: 3px; }
+}
+
+@media (min-width: 768px) {
+  .display { font-size: var(--editorial-size, inherit); }
 }
