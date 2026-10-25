@@ -7,6 +7,8 @@ import landscape from "@/assets/landscape.jpg";
 export const Route = createFileRoute("/heron-dashboard")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Heron Dashboard — Every change, flag and approval in one place" },
       { name: "description", content: "See what the agent is doing across all your projects: issues flagged, edits made, and approvals waiting." },
       { property: "og:title", content: "Heron Dashboard" },

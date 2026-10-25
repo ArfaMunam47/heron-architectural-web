@@ -8,6 +8,8 @@ import { HomeStory } from "@/components/site/Story";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Heron AI — An AI agent that works inside your design tools" },
       { name: "description", content: "Heron reviews your model, identifies issues and proposes solutions. Upon approval, it edits automatically." },
       { property: "og:title", content: "Heron AI — An AI agent inside your design tools" },

@@ -25,6 +25,7 @@ export function HeroStage() {
 
   useEffect(() => {
     if (sessionStorage.getItem("heron-intro")) { setPhase("done"); setPct(100); return; }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setPhase('done'); setPct(100); return; }
     const t0 = performance.now();
     let raf = 0;
     const tick = (t: number) => {
@@ -38,14 +39,15 @@ export function HeroStage() {
   }, []);
 
   const pos = (e: React.MouseEvent) => {
-    const r = box.current!.getBoundingClientRect();
+    const r = box.current?.getBoundingClientRect();
+    if (!r) return { x: 0, y: 0 };
     return { x: e.clientX - r.left, y: e.clientY - r.top };
   };
 
   return (
     <div
       ref={box}
-      className="relative h-[calc(100vh-10rem)] min-h-[420px] cursor-crosshair select-none overflow-hidden"
+      className="relative h-[calc(100svh-14rem)] min-h-[260px] md:h-[calc(100svh-10rem)] md:min-h-[360px] cursor-crosshair select-none overflow-hidden"
       onMouseMove={(e) => {
         const p = pos(e); setM(p);
         if (start.current) setDrag({ x: Math.min(p.x, start.current.x), y: Math.min(p.y, start.current.y), w: Math.abs(p.x - start.current.x), h: Math.abs(p.y - start.current.y) });
@@ -84,16 +86,16 @@ export function HeroStage() {
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-x-0 h-px bg-line" style={{ top: m.y }} />
           <div className="absolute inset-y-0 w-px bg-line" style={{ left: m.x }} />
-          <div className="absolute flex items-start gap-1" style={{ left: m.x + 6, top: m.y + 6 }}>
+          <div className="absolute flex items-start gap-1" style={{ left: Math.min(m.x + 6, (box.current?.clientWidth ?? 200) - 180), top: Math.min(m.y + 6, (box.current?.clientHeight ?? 100) - 40) }}>
             <span className="font-mono text-[8px] leading-tight text-muted-foreground">X:{Math.round(m.x)}PX<br />Y:{Math.round(m.y)}PX</span>
-            {!drag && <span className="bg-ink px-1.5 py-1 font-mono text-[8px] uppercase leading-tight text-ink-foreground">Click and drag your<br />mouse to see violations</span>}
+            {!drag && <span className="bg-ink px-1.5 py-1 font-mono text-[8px] uppercase leading-tight text-ink-foreground">Model study / Selection</span>}
           </div>
         </div>
       )}
       {drag && drag.w > 8 && (
         <div className="pointer-events-none absolute border border-primary bg-primary/10" style={{ left: drag.x, top: drag.y, width: drag.w, height: drag.h }}>
           <span className="absolute -top-4 left-0 bg-primary px-1 font-mono text-[8px] uppercase text-primary-foreground">
-            {Math.max(1, Math.round((drag.w * drag.h) / 9000))} violations found
+            {Math.max(1, Math.round((drag.w * drag.h) / 9000))} sample flags
           </span>
         </div>
       )}
