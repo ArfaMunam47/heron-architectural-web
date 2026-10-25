@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Cursor } from "@/components/site/Cursor";
 import { RouteTransition } from "@/components/site/Transition";
 import { SiteOfTheDay } from "@/components/site/Bits";
+import { Footer } from "@/components/site/Footer";
 
 function NotFoundComponent() {
   return (
@@ -91,6 +92,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <div className="mx-auto max-w-[1600px] border-x border-border">
         <Outlet />
+        <Footer />
       </div>
       <RouteTransition />
       <SiteOfTheDay />

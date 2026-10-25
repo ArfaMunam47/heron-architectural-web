@@ -3,6 +3,7 @@ import { Header } from "@/components/site/Header";
 import { HeroStage } from "@/components/site/HeroStage";
 import { DiscoverMore, Reveal, Ticker } from "@/components/site/Bits";
 import { LogoMark } from "@/components/site/Logo";
+import { HomeStory } from "@/components/site/Story";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -56,10 +57,7 @@ function Index() {
           </div>
         </section>
 
-        <footer className="flex items-center justify-between border-t border-border px-4 py-3 label text-muted-foreground">
-          <span className="flex items-center gap-2"><LogoMark className="h-4 w-4" /> © 2026 Heron AI</span>
-          <span>Concept by Bearplus</span>
-        </footer>
+        <HomeStory />
       </main>
     </>
   );
