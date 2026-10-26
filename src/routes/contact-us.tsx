@@ -41,7 +41,7 @@ function Contact() {
         <div>
           <div className="border-b border-border p-4">
             <h1 className="display text-[clamp(2rem,3.4vw,3.2rem)]"><Reveal>Get in touch</Reveal></h1>
-            <p className="mt-3 text-[11px] leading-snug">None of this site is real. You wanted it anyway.<br />Imagine what happens when the product is actually yours. Let's build it.</p>
+            <p className="mt-3 text-[11px] leading-snug">A project in mind? Get in touch with Bearplus.<br />This is a concept form; messages are not sent from this website.</p>
           </div>
           <h2 className="display border-b border-border p-4 text-[clamp(1.4rem,2.2vw,2.2rem)]">Please fill out this form</h2>
           {sent ? (
@@ -60,15 +60,15 @@ function Contact() {
               <Field name="phone" label="Phone number" type="tel" />
               <Field name="message" label="Message" area />
               <Button type="submit" variant="ghost" className="group flex h-auto w-full items-center justify-between px-4 py-4 text-left text-xl font-semibold uppercase tracking-tight text-muted-foreground/70 transition-colors hover:bg-primary hover:text-primary-foreground">
-                Submit <span className="text-base transition-transform group-hover:translate-x-1">→</span>
+                Preview inquiry <span className="text-base transition-transform group-hover:translate-x-1">→</span>
               </Button>
             </form>
           )}
         </div>
         <div className="flex flex-col border-l border-border">
-          <div className="grid grid-cols-3 border-b border-border">
+          <div className="grid grid-cols-2 border-b border-border lg:grid-cols-3">
             {([["New business", "business@bear.plus"], ["General inquiries", "hello@bear.plus"], ["Address", "60 Martin Pl, Sydney, NSW 2000, Australia"]] as const).map(([k, v], i) => (
-              <div key={k} className={`flex min-h-24 flex-col justify-between p-4 ${i ? "border-l border-border" : ""}`}>
+              <div key={k} className={`flex min-h-24 flex-col justify-between gap-3 p-4 ${i === 1 ? "border-l border-border" : i === 2 ? "col-span-2 border-t border-border lg:col-span-1 lg:border-l lg:border-t-0" : ""}`}>
                 <span className="font-mono text-[8px] uppercase text-muted-foreground">{k}</span>
                 {v.includes("@") ? <a href={`mailto:${v}`} className="break-all text-[11px] transition-colors hover:text-primary">{v}</a> : <span className="break-words text-[11px]">{v}</span>}
               </div>

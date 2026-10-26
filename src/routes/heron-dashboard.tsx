@@ -22,7 +22,7 @@ export const Route = createFileRoute("/heron-dashboard")({
   component: Dashboard,
 });
 
-const stats = [["Active", "8"], ["Pending", "4"], ["Model health", "94%"], ["Time saved", "16.8h"]];
+const stats = [["Active", "8"], ["Pending", "3"], ["Model health", "94%"], ["Time saved", "16.8h"]];
 const activity = ["Duplicate wall types detected", "Door family missing parameter", "Unused families found", "Naming standards passed"];
 const pending = ["Rename 284 rooms", "Merge 17 duplicate families", "Delete 39 unused types"];
 
@@ -54,13 +54,13 @@ function Dashboard() {
                   <div key={k} className="relative border border-border p-1.5">
                     <span className="absolute right-1 top-1 h-1.5 w-1.5 bg-primary" />
                     <div className="font-mono text-[6px] uppercase text-muted-foreground">{k}</div>
-                    <div className="mt-2 text-sm font-semibold">{v}</div>
+                    <div className="mt-2 text-sm font-semibold">{k === 'Pending' ? pending.length - approved.length : v}</div>
                   </div>
                 ))}
               </div>
               <div className="mt-2 h-1 bg-ink" />
-              <p className="mt-2 text-[8px] font-semibold uppercase">Welcome back, David</p>
-              <div className="mt-3 flex justify-between text-[8px] font-bold uppercase"><span>AI Activity</span><span className="font-mono text-primary">View all</span></div>
+              <p className="mt-2 text-[8px] font-semibold uppercase">Sample project / Level 02</p>
+              <div className="mt-3 flex justify-between text-[8px] font-bold uppercase"><span>AI Activity</span><span className="font-mono text-muted-foreground">4 events</span></div>
               <ul className="mt-1">
                 {activity.map((a, i) => (
                   <li key={a} className="flex items-center gap-2 border-b border-border py-1.5 fade-in" style={{ animationDelay: `${600 + i * 150}ms` }}>
@@ -71,7 +71,7 @@ function Dashboard() {
               </ul>
             </div>
             <div className="relative z-10 mx-auto my-6 w-[86%] border border-ink bg-background fade-in [animation-delay:900ms] md:absolute md:bottom-[14%] md:right-[8%] md:m-0 md:w-[38%] md:min-w-52">
-              <div className="flex justify-between bg-ink px-2 py-1 font-mono text-[7px] uppercase text-ink-foreground"><span>Pending approval (3)</span><span>View all</span></div>
+              <div className="flex justify-between bg-ink px-2 py-1 font-mono text-[7px] uppercase text-ink-foreground" aria-live="polite"><span>Pending approval ({pending.length - approved.length})</span><span>Sample model</span></div>
               {pending.map((p) => (
                 <div key={p} className="flex items-center justify-between border-b border-border px-2 py-2">
                   <span className="text-[7px] font-bold uppercase">{p}</span>
