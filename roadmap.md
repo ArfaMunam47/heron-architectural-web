@@ -1,4 +1,7 @@
 # Heron completion
+- [ ] Polish the reference-style cursor, including interactive targets and reduced motion.
+- [ ] Resolve unfinished presentation details without changing the visual identity.
+- [ ] Verify navigation, demonstrations, contact, and desktop/phone presentation for sharing.
 - [x] Preserve reference styling and refine hero/navigation on small screens.
 - [x] Add workflow, working task demonstration, product continuation and closing CTA.
 - [x] Add linked sample articles and editorial collection.
