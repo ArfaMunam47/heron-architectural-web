@@ -47,6 +47,7 @@ export function HeroStage() {
   return (
     <div
       ref={box}
+      data-cursor="native"
       className="relative h-[calc(100svh-14rem)] min-h-[260px] md:h-[calc(100svh-10rem)] md:min-h-[360px] cursor-crosshair select-none overflow-hidden"
       onMouseMove={(e) => {
         const p = pos(e); setM(p);
