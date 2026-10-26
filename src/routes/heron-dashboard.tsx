@@ -70,7 +70,7 @@ function Dashboard() {
                 ))}
               </ul>
             </div>
-            <div className="absolute bottom-[14%] right-[8%] w-[38%] min-w-52 border border-ink bg-background fade-in [animation-delay:900ms]">
+            <div className="relative z-10 mx-auto my-6 w-[86%] border border-ink bg-background fade-in [animation-delay:900ms] md:absolute md:bottom-[14%] md:right-[8%] md:m-0 md:w-[38%] md:min-w-52">
               <div className="flex justify-between bg-ink px-2 py-1 font-mono text-[7px] uppercase text-ink-foreground"><span>Pending approval (3)</span><span>View all</span></div>
               {pending.map((p) => (
                 <div key={p} className="flex items-center justify-between border-b border-border px-2 py-2">

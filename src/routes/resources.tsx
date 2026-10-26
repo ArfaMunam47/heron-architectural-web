@@ -36,7 +36,7 @@ function Resources() {
         <div className="h-8" />
         <div className="flex justify-center flex-wrap gap-x-6 gap-y-2 border-y border-border py-2">
           {tabs.map((t) => (
-            <Button variant="ghost" size="sm" key={t.k} onClick={() => nav({ to: "/resources", hash: t.k === "all" ? "" : t.k })} className={`label transition-colors ${active === t.k ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}>
+            <Button variant="ghost" size="sm" key={t.k} aria-pressed={active === t.k} onClick={() => nav({ to: "/resources", hash: t.k === "all" ? "" : t.k })} className={`label transition-colors ${active === t.k ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}>
               {t.l}<sup className="ml-0.5 text-[9px]">[{t.k === "all" ? posts.length : posts.filter((p) => p.category === t.k).length}]</sup>
             </Button>
           ))}
