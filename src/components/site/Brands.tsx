@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const brands = [
   { n: "VANTAR", s: "" },
@@ -27,18 +29,18 @@ function Mark({ i }: { i: number }) {
 
 export function Brands() {
   const [off, setOff] = useState(0);
-  const shown = Array.from({ length: 6 }, (_, k) => brands[(k + off) % brands.length]!);
+  const shown = Array.from({ length: 6 }, (_, k) => brands[(k + off) % brands.length]).filter(b => b !== undefined);
   return (
-    <div className="grid grid-cols-[44px_repeat(6,1fr)_44px] border-t border-border">
-      <button aria-label="Previous" onClick={() => setOff((o) => (o + brands.length - 1) % brands.length)} className="flex items-center justify-center text-muted-foreground transition-colors hover:text-primary">←</button>
+    <div className="grid grid-cols-[40px_minmax(0,1fr)_minmax(0,1fr)_40px] border-t border-border sm:grid-cols-[40px_repeat(3,minmax(0,1fr))_40px] lg:grid-cols-[44px_repeat(6,minmax(0,1fr))_44px]">
+      <Button variant="ghost" aria-label="Previous sample brands" title="Previous sample brands" onClick={() => setOff((o) => (o + brands.length - 1) % brands.length)} className="h-20 p-0 text-muted-foreground hover:text-primary"><ArrowLeft /></Button>
       {shown.map((b, k) => (
-        <div key={b.n + k} className="flex h-20 flex-col items-center justify-center gap-0.5 border-l border-border text-foreground/80 fade-in transition-colors hover:text-primary">
+        <div key={b.n + k} className={`h-20 min-w-0 flex-col items-center justify-center gap-0.5 border-l border-border px-1 text-foreground/80 fade-in ${k < 2 ? 'flex' : k === 2 ? 'hidden sm:flex' : 'hidden lg:flex'}`}>
           <Mark i={(k + off) % brands.length} />
-          <span className="text-[11px] font-bold tracking-[0.15em]">{b.n}</span>
-          {b.s && <span className="text-[6px] tracking-[0.3em] text-muted-foreground">{b.s}</span>}
+          <span className="max-w-full text-center text-[10px] font-bold">{b.n}</span>
+          {b.s && <span className="text-center text-[6px] text-muted-foreground">{b.s}</span>}
         </div>
       ))}
-      <button aria-label="Next" onClick={() => setOff((o) => (o + 1) % brands.length)} className="flex items-center justify-center border-l border-border text-muted-foreground transition-colors hover:text-primary">→</button>
+      <Button variant="ghost" aria-label="Next sample brands" title="Next sample brands" onClick={() => setOff((o) => (o + 1) % brands.length)} className="h-20 border-l border-border p-0 text-muted-foreground hover:text-primary"><ArrowRight /></Button>
     </div>
   );
 }
