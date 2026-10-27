@@ -1,5 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
-import { createRouter, rootRouteId } from "@tanstack/react-router";
+import { createMemoryHistory, createRouter, rootRouteId } from "@tanstack/react-router";
 import { describe, expect, it } from "vitest";
 
 import { routeTree } from "@/routeTree.gen";
@@ -14,9 +14,10 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
-  it('opens article pages without nesting them under the collection', () => {
-    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
-    const matches = router.matchRoutes('/resources/continuous-review');
+  it('opens article pages without nesting them under the collection', async () => {
+    const router = createRouter({ routeTree, history: createMemoryHistory({ initialEntries: ['/resources/continuous-review'] }), context: { queryClient: new QueryClient() } });
+    await router.load();
+    const matches = router.state.matches;
     expect(matches.at(-1)?.routeId).toBe('/resources/$slug');
     expect(matches.some(match => match.routeId === '/resources/')).toBe(false);
   });
