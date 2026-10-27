@@ -35,7 +35,7 @@ function Index() {
               Heron reviews your model, identifies issues, and proposes solutions. Upon approval, it edits automatically. This concept crafted by <a className="font-semibold underline" href="https://bearplus.com" target="_blank" rel="noreferrer">Bearplus agency</a>, the award-winning design agency.
             </p>
           </div>
-          <div className="border-l border-border"><DiscoverMore to="/heron-chat-widget" /></div>
+          <div className="border-l border-border"><DiscoverMore to="/about-us" /></div>
         </section>
         <Ticker />
 
