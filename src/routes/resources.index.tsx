@@ -4,7 +4,7 @@ import { Plus } from "@/components/site/Bits";
 import { articles, type Category } from "@/lib/articles";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/resources")({
+export const Route = createFileRoute("/resources/")({
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },

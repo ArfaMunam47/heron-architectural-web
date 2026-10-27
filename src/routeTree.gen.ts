@@ -15,7 +15,7 @@ import { Route as ContactUsRouteImport } from './routes/contact-us'
 import { Route as HeronChatWidgetRouteImport } from './routes/heron-chat-widget'
 import { Route as HeronDashboardRouteImport } from './routes/heron-dashboard'
 import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as ResourcesSlugRouteImport } from './routes/resources.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -48,15 +48,15 @@ const PricingRoute = PricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResourcesRoute = ResourcesRouteImport.update({
-  id: '/resources',
-  path: '/resources',
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/resources/',
+  path: '/resources/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ResourcesRoute,
+  id: '/resources/$slug',
+  path: '/resources/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -66,8 +66,8 @@ export interface FileRoutesByFullPath {
   '/heron-chat-widget': typeof HeronChatWidgetRoute
   '/heron-dashboard': typeof HeronDashboardRoute
   '/pricing': typeof PricingRoute
-  '/resources': typeof ResourcesRouteWithChildren
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/resources/': typeof ResourcesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,8 +76,8 @@ export interface FileRoutesByTo {
   '/heron-chat-widget': typeof HeronChatWidgetRoute
   '/heron-dashboard': typeof HeronDashboardRoute
   '/pricing': typeof PricingRoute
-  '/resources': typeof ResourcesRouteWithChildren
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/resources': typeof ResourcesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,8 +87,8 @@ export interface FileRoutesById {
   '/heron-chat-widget': typeof HeronChatWidgetRoute
   '/heron-dashboard': typeof HeronDashboardRoute
   '/pricing': typeof PricingRoute
-  '/resources': typeof ResourcesRouteWithChildren
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/resources/': typeof ResourcesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -99,8 +99,8 @@ export interface FileRouteTypes {
     | '/heron-chat-widget'
     | '/heron-dashboard'
     | '/pricing'
-    | '/resources'
     | '/resources/$slug'
+    | '/resources/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -109,8 +109,8 @@ export interface FileRouteTypes {
     | '/heron-chat-widget'
     | '/heron-dashboard'
     | '/pricing'
-    | '/resources'
     | '/resources/$slug'
+    | '/resources'
   id:
     | '__root__'
     | '/'
@@ -119,8 +119,8 @@ export interface FileRouteTypes {
     | '/heron-chat-widget'
     | '/heron-dashboard'
     | '/pricing'
-    | '/resources'
     | '/resources/$slug'
+    | '/resources/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -130,7 +130,8 @@ export interface RootRouteChildren {
   HeronChatWidgetRoute: typeof HeronChatWidgetRoute
   HeronDashboardRoute: typeof HeronDashboardRoute
   PricingRoute: typeof PricingRoute
-  ResourcesRoute: typeof ResourcesRouteWithChildren
+  ResourcesSlugRoute: typeof ResourcesSlugRoute
+  ResourcesIndexRoute: typeof ResourcesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -177,34 +178,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/resources': {
-      id: '/resources'
+    '/resources/': {
+      id: '/resources/'
       path: '/resources'
-      fullPath: '/resources'
-      preLoaderRoute: typeof ResourcesRouteImport
+      fullPath: '/resources/'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resources/$slug': {
       id: '/resources/$slug'
-      path: '/$slug'
+      path: '/resources/$slug'
       fullPath: '/resources/$slug'
       preLoaderRoute: typeof ResourcesSlugRouteImport
-      parentRoute: typeof ResourcesRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
-
-interface ResourcesRouteChildren {
-  ResourcesSlugRoute: typeof ResourcesSlugRoute
-}
-
-const ResourcesRouteChildren: ResourcesRouteChildren = {
-  ResourcesSlugRoute: ResourcesSlugRoute,
-}
-
-const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
-  ResourcesRouteChildren,
-)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -213,7 +202,8 @@ const rootRouteChildren: RootRouteChildren = {
   HeronChatWidgetRoute: HeronChatWidgetRoute,
   HeronDashboardRoute: HeronDashboardRoute,
   PricingRoute: PricingRoute,
-  ResourcesRoute: ResourcesRouteWithChildren,
+  ResourcesSlugRoute: ResourcesSlugRoute,
+  ResourcesIndexRoute: ResourcesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
