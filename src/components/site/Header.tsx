@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo, LogoMark } from "./Logo";
+import { BackToDashboard } from "./Bits";
 
 type Item = { label: string; to: string; children?: { label: string; to: string; hash?: string }[] };
 
@@ -27,9 +28,14 @@ export function Header({ compact = false }: { compact?: boolean }) {
   useEffect(() => { setOpen(null); setMobileOpen(false); }, [pathname]);
   return (
     <header onKeyDown={e => { if (e.key === 'Escape') { setOpen(null); setMobileOpen(false); } }} className="sticky top-0 z-40 flex h-10 border-b border-border bg-background">
-      <Link to="/" className="flex flex-1 items-center px-4" aria-label="Heron AI home">
+      <Link to="/" className="flex items-center px-4" aria-label="Heron AI home">
         {compact ? <LogoMark className="h-7 w-7" /> : <Logo />}
       </Link>
+      <div className="flex flex-1 items-center">
+        {pathname !== "/" && pathname !== "/heron-dashboard" && (
+          <div className="flex h-10 items-center border-l border-border px-3"><BackToDashboard /></div>
+        )}
+      </div>
       <nav aria-label="Main navigation" className="hidden md:flex">
         {items.map((it) => {
           const active = pathname === it.to || it.children?.some((c) => c.to === pathname);
