@@ -54,9 +54,9 @@ const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
-  id: '/resources/$slug',
-  path: '/resources/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ResourcesRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -130,7 +130,6 @@ export interface RootRouteChildren {
   HeronChatWidgetRoute: typeof HeronChatWidgetRoute
   HeronDashboardRoute: typeof HeronDashboardRoute
   PricingRoute: typeof PricingRoute
-  ResourcesSlugRoute: typeof ResourcesSlugRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
 }
 
@@ -187,10 +186,10 @@ declare module '@tanstack/react-router' {
     }
     '/resources/$slug': {
       id: '/resources/$slug'
-      path: '/resources/$slug'
+      path: '/$slug'
       fullPath: '/resources/$slug'
       preLoaderRoute: typeof ResourcesSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ResourcesRoute
     }
   }
 }
@@ -202,7 +201,6 @@ const rootRouteChildren: RootRouteChildren = {
   HeronChatWidgetRoute: HeronChatWidgetRoute,
   HeronDashboardRoute: HeronDashboardRoute,
   PricingRoute: PricingRoute,
-  ResourcesSlugRoute: ResourcesSlugRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
 }
 export const routeTree = rootRouteImport
