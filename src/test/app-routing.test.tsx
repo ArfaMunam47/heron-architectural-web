@@ -14,4 +14,10 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+  it('opens article pages without nesting them under the collection', () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    const matches = router.matchRoutes('/resources/continuous-review');
+    expect(matches.at(-1)?.routeId).toBe('/resources/$slug');
+    expect(matches.some(match => match.routeId === '/resources/')).toBe(false);
+  });
 });

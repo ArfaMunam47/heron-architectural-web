@@ -10,6 +10,7 @@
 <!-- LOVABLE:END -->
 
 - Keep shared editorial continuation sections in site components and sample article data in a browser-safe module so pages share the same content and grid language.
+- Use an index route for the resource collection so it remains a sibling of article detail pages rather than a parent without an Outlet.
 - Product demos and approval previews are frontend-only state machines; never imply they edit a real model or call live AI.
 - Mount the shared footer once in the root layout so all content pages have consistent navigation.
 - Keep the decorative pointer follower isolated from native input and model-selection pointers, and idle its animation when stationary, to preserve precision and avoid unnecessary motion.
