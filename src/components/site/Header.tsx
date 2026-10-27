@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo, LogoMark } from "./Logo";
 
@@ -24,12 +24,13 @@ export function Header({ compact = false }: { compact?: boolean }) {
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { pathname } = useLocation();
+  useEffect(() => { setOpen(null); setMobileOpen(false); }, [pathname]);
   return (
-    <header className="sticky top-0 z-40 flex h-10 border-b border-border bg-background">
+    <header onKeyDown={e => { if (e.key === 'Escape') { setOpen(null); setMobileOpen(false); } }} className="sticky top-0 z-40 flex h-10 border-b border-border bg-background">
       <Link to="/" className="flex flex-1 items-center px-4" aria-label="Heron AI home">
         {compact ? <LogoMark className="h-7 w-7" /> : <Logo />}
       </Link>
-      <nav className="hidden md:flex">
+      <nav aria-label="Main navigation" className="hidden md:flex">
         {items.map((it) => {
           const active = pathname === it.to || it.children?.some((c) => c.to === pathname);
           return (
@@ -41,13 +42,14 @@ export function Header({ compact = false }: { compact?: boolean }) {
                 <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dither" />
                 <span className="relative">{it.label}</span>
                 {active && <span className="absolute right-2 top-1/2 h-1 w-1 bg-foreground" />}
-                {it.children && <span className="absolute bottom-1 right-1 h-1.5 w-1.5 border-b border-r border-muted-foreground" />}
               </Link>
+              {it.children && <Button variant="ghost" size="icon" aria-label={`Toggle ${it.label} menu`} aria-expanded={open === it.label} aria-controls={`nav-${it.label.toLowerCase()}`} onClick={() => setOpen(current => current === it.label ? null : it.label)} className="absolute bottom-0 right-0 h-5 w-5 text-muted-foreground [&_svg]:size-3"><ChevronDown /></Button>}
               {it.children && open === it.label && (
-                <div className="absolute left-0 top-10 w-[146px] border border-border bg-background fade-in [animation-duration:200ms]">
+                <div id={`nav-${it.label.toLowerCase()}`} className="absolute left-0 top-10 w-[146px] border border-border bg-background fade-in [animation-duration:200ms]">
                   {it.children.map((c) => (
                     <Link
                       key={c.label}
+                      onClick={() => setOpen(null)}
                       to={c.to}
                       {...(c.hash ? { hash: c.hash } : {})}
                       className="block border-b border-border px-1.5 py-1.5 label text-muted-foreground transition-colors last:border-b-0 hover:bg-ink hover:text-ink-foreground"
