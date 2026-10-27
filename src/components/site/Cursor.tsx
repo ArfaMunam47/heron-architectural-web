@@ -46,12 +46,12 @@ export function Cursor() {
       visible = true;
       if (layer.current) {
         layer.current.style.opacity = '1';
-        layer.current.dataset.active = String(Boolean(target?.closest('a, button:not(:disabled), [role="button"], summary')));
+        layer.current.dataset['active'] = String(Boolean(target?.closest('a, button:not(:disabled), [role="button"], summary')));
       }
       if (!raf) raf = requestAnimationFrame(tick);
     };
-    const press = () => { if (layer.current) layer.current.dataset.pressed = 'true'; };
-    const release = () => { if (layer.current) layer.current.dataset.pressed = 'false'; };
+    const press = () => { if (layer.current) layer.current.dataset['pressed'] = 'true'; };
+    const release = () => { if (layer.current) layer.current.dataset['pressed'] = 'false'; };
     const leave = (e: PointerEvent) => { if (!e.relatedTarget) hide(); };
     const visibility = () => { if (document.hidden) hide(); };
     window.addEventListener('pointermove', move, { passive: true });

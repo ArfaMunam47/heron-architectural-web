@@ -21,6 +21,7 @@ export const Route = createFileRoute("/about-us")({
 function About() {
   const [stage, setStage] = useState(0);
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setStage(1); return; }
     const id = setInterval(() => setStage((s) => (s + 1) % 2), 4200);
     return () => clearInterval(id);
   }, []);

@@ -24,7 +24,9 @@ export function HeroStage() {
   const box = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (sessionStorage.getItem("heron-intro")) { setPhase("done"); setPct(100); return; }
+    try {
+      if (sessionStorage.getItem("heron-intro")) { setPhase("done"); setPct(100); return; }
+    } catch { /* The intro still works when browser storage is unavailable. */ }
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setPhase('done'); setPct(100); return; }
     const t0 = performance.now();
     let raf = 0;
@@ -32,7 +34,10 @@ export function HeroStage() {
       const p = Math.min(100, ((t - t0) / 2600) * 100);
       setPct(Math.round(p));
       if (p < 100) raf = requestAnimationFrame(tick);
-      else { setPhase("done"); sessionStorage.setItem("heron-intro", "1"); }
+      else {
+        setPhase("done");
+        try { sessionStorage.setItem("heron-intro", "1"); } catch { /* Optional intro preference. */ }
+      }
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
