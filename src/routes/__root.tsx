@@ -90,7 +90,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="mx-auto max-w-[1600px] border-x border-border">
+      <div className="mx-auto max-w-[1600px] border-x md:mr-14 min-[1712px]:mx-auto border-border">
         <Outlet />
         <Footer />
       </div>
