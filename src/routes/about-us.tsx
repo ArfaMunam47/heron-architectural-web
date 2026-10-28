@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import React, { useEffect, useRef, useState, type ReactNode } from "react";
 import { Header } from "@/components/site/Header";
 import { Corners, Reveal } from "@/components/site/Bits";
 import workflow from "@/assets/art-workflow.jpg";
@@ -64,8 +64,8 @@ function Step({ s, i }: { s: (typeof steps)[number]; i: number }) {
   const [ref, on] = useInView<HTMLLIElement>();
   return (
     <li ref={ref} className={`grid border-t border-border md:grid-cols-[120px_1fr_1fr_200px] ${i % 2 ? "md:bg-card" : ""}`}>
-      <span className="display p-4 text-6xl text-primary md:text-7xl">{s.n}</span>
-      <h3 className="display self-end p-4 text-2xl md:border-l md:border-border md:text-3xl">{s.title}</h3>
+      <span style={{ "--editorial-size": "4.5rem" } as React.CSSProperties} className="display p-4 text-6xl text-primary md:text-7xl">{s.n}</span>
+      <h3 style={{ "--editorial-size": "1.9rem" } as React.CSSProperties} className="display self-end p-4 text-2xl md:border-l md:border-border md:text-3xl">{s.title}</h3>
       <div className="flex flex-col justify-between gap-4 p-4 md:border-l md:border-border">
         <span className="label text-muted-foreground">{s.label}</span>
         <p className="max-w-xs text-[14px] leading-snug">{s.copy}</p>
@@ -96,7 +96,7 @@ function Centerpiece() {
             <Draw on={on} d="M420 140 L560 80" delay={1300} w={1} color="var(--primary)" />
           </svg>
           <span className="absolute right-4 top-[14%] label text-primary">Flag — stair core clearance</span>
-          <p className="display absolute bottom-4 left-4 text-[clamp(1.6rem,3.2vw,3rem)]">Every floor,<br />checked.</p>
+          <p style={{ "--editorial-size": "clamp(1.6rem,3.2vw,3rem)" } as React.CSSProperties} className="display absolute bottom-4 left-4 text-[clamp(1.6rem,3.2vw,3rem)]">Every floor,<br />checked.</p>
         </div>
       </div>
     </section>
@@ -112,7 +112,7 @@ function About() {
           <Corners />
           <div className="flex flex-col justify-between gap-10 p-6 pt-10 md:p-8 md:pt-14">
             <p className="label text-muted-foreground">About Heron AI / Sheet A-000</p>
-            <h1 className="display text-[clamp(2.8rem,8vw,7.5rem)]">
+            <h1 style={{ "--editorial-size": "clamp(4rem,8vw,7.5rem)" } as React.CSSProperties} className="display text-[clamp(2.8rem,8vw,7.5rem)]">
               <Reveal>Less</Reveal><Reveal delay={120}>busywork.</Reveal><Reveal delay={240}><span className="text-primary">More</span></Reveal><Reveal delay={360}>building.</Reveal>
             </h1>
             <div className="grid grid-cols-2 border-t border-border pt-3 label text-muted-foreground">
@@ -123,7 +123,7 @@ function About() {
         </section>
 
         <section className="grid md:grid-cols-[1fr_1fr]">
-          <h2 className="display p-6 text-[clamp(1.8rem,4vw,3.6rem)] md:p-8">An extra set of eyes on the model — that never edits without asking.</h2>
+          <h2 style={{ "--editorial-size": "clamp(2rem,3.6vw,3.6rem)" } as React.CSSProperties} className="display p-6 text-[clamp(1.8rem,4vw,3.6rem)] md:p-8">An extra set of eyes on the model — that never edits without asking.</h2>
           <div className="grid border-t border-border md:border-l md:border-t-0">
             <p className="p-6 text-[15px] leading-snug md:p-8">Heron AI helps architects and design professionals find building-code compliance issues and handle repetitive model-maintenance tasks. It works inside the tools you already use, proposes each fix, and applies it only once you approve.</p>
             <dl className="grid grid-cols-2 border-t border-border">
@@ -135,14 +135,14 @@ function About() {
         </section>
 
         <section className="border-t border-border">
-          <div className="flex flex-wrap items-end justify-between gap-4 p-6 md:p-8"><h2 className="display text-3xl md:text-5xl">Four steps,<br />one approval.</h2><span className="label text-muted-foreground">Process / General workflow</span></div>
+          <div className="flex flex-wrap items-end justify-between gap-4 p-6 md:p-8"><h2 style={{ "--editorial-size": "3rem" } as React.CSSProperties} className="display text-3xl md:text-5xl">Four steps,<br />one approval.</h2><span className="label text-muted-foreground">Process / General workflow</span></div>
           <ol>{steps.map((s, i) => <Step key={s.n} s={s} i={i} />)}</ol>
         </section>
 
         <Centerpiece />
 
         <section className="grid border-t border-border md:grid-cols-[2fr_1fr]">
-          <div className="p-6 md:p-8"><p className="label mb-4 text-primary">Next sheet</p><h2 className="display text-[clamp(2rem,5vw,4.5rem)]">Hand over the busywork.<br />Keep the design.</h2></div>
+          <div className="p-6 md:p-8"><p className="label mb-4 text-primary">Next sheet</p><h2 style={{ "--editorial-size": "clamp(2.4rem,4.6vw,4.5rem)" } as React.CSSProperties} className="display text-[clamp(2rem,5vw,4.5rem)]">Hand over the busywork.<br />Keep the design.</h2></div>
           <div className="grid border-t border-border md:border-l md:border-t-0">
             <Link to="/heron-dashboard" className="group flex items-center justify-between p-4 label text-primary transition-colors hover:bg-primary hover:text-primary-foreground">See the dashboard demo <span className="transition-transform group-hover:translate-x-1">→</span></Link>
             <Link to="/pricing" className="group flex items-center justify-between border-t border-border p-4 label transition-colors hover:bg-ink hover:text-ink-foreground">View pricing <span className="transition-transform group-hover:translate-x-1">→</span></Link>
