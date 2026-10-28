@@ -14,3 +14,4 @@
 - Product demos and approval previews are frontend-only state machines; never imply they edit a real model or call live AI.
 - Mount the shared footer once in the root layout so all content pages have consistent navigation.
 - Keep the decorative pointer follower isolated from native input and model-selection pointers, and idle its animation when stationary, to preserve precision and avoid unnecessary motion.
+- Keep the homepage construction grid and house geometry in one shared SVG coordinate system so their animated edges remain aligned at every viewport size.

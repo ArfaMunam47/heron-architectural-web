@@ -126,6 +126,24 @@
 @utility grow-x { transform-origin: left; animation: line-grow-x 1.2s var(--ease-arch) both; }
 @utility grow-y { transform-origin: top; animation: line-grow-y 1.2s var(--ease-arch) both; }
 
+.hero-draft-grid { animation: fade-in 300ms ease both; }
+.hero-draft-edge {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1100ms var(--ease-arch) both;
+}
+[data-hero-drawing][data-complete="true"] .hero-draft-edge {
+  animation: none;
+  stroke-dashoffset: 0;
+}
+.nav-cell-link, .nav-cell-toggle { transition: background-color 200ms ease, color 200ms ease; }
+.nav-cell:hover > .nav-cell-link,
+.nav-cell:focus-within > .nav-cell-link { background: var(--ink); color: var(--ink-foreground); }
+.nav-cell:hover > .nav-cell-toggle,
+.nav-cell:focus-within > .nav-cell-toggle { background: transparent; color: var(--ink-foreground); }
+.nav-cell-link:focus-visible { outline-offset: -3px; }
+.nav-cell-toggle:focus-visible { outline: 1px solid var(--ink-foreground); outline-offset: -2px; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

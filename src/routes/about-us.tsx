@@ -85,8 +85,10 @@ function Centerpiece() {
           <img src={workflow} alt="Exploded axonometric model with separated floor plates" loading="lazy" width={1200} height={912} className={`h-full w-full object-cover grayscale transition-[clip-path] duration-[1600ms] ease-[var(--ease-arch)] ${on ? "[clip-path:inset(0_0_0_0)]" : "[clip-path:inset(0_0_100%_0)]"}`} />
           <div className={`absolute bottom-[12%] right-[10%] h-[22%] w-[22%] bg-primary mix-blend-multiply transition-transform duration-[1200ms] ease-[var(--ease-arch)] [transition-delay:600ms] ${on ? "scale-100" : "scale-0"}`} />
         </div>
-        <div className="relative min-h-[320px]">
-          <svg viewBox="0 0 600 420" className="absolute inset-0 h-full w-full" strokeLinejoin="round" aria-hidden="true">
+        <div className="grid min-h-[320px] grid-rows-[auto_minmax(220px,1fr)_auto]">
+          <span className="label px-4 pt-3 text-right text-primary">Flag — stair core clearance</span>
+          <div className="relative min-h-0">
+          <svg viewBox="0 0 600 420" className="absolute inset-0 h-full w-full" strokeLinejoin="round" aria-hidden="true" data-sheet-wireframe>
             {Array.from({ length: 13 }, (_, i) => <line key={i} x1={i * 50} y1="0" x2={i * 50} y2="420" stroke="var(--line)" />)}
             <Draw on={on} d="M80 330 L300 220 L520 330 L300 400 Z" w={2} />
             <Draw on={on} d="M80 250 L300 140 L520 250 L300 320 Z" delay={250} w={2} />
@@ -95,8 +97,8 @@ function Centerpiece() {
             <Draw on={on} d="M300 140 L360 110 L420 140 L360 170 Z" delay={1100} w={2} color="var(--primary)" />
             <Draw on={on} d="M420 140 L560 80" delay={1300} w={1} color="var(--primary)" />
           </svg>
-          <span className="absolute right-4 top-[14%] label text-primary">Flag — stair core clearance</span>
-          <p style={{ "--editorial-size": "clamp(1.6rem,3.2vw,3rem)" } as React.CSSProperties} className="display absolute bottom-4 left-4 text-[clamp(1.6rem,3.2vw,3rem)]">Every floor,<br />checked.</p>
+          </div>
+          <p style={{ "--editorial-size": "clamp(1.6rem,3.2vw,3rem)" } as React.CSSProperties} className="display border-t border-border bg-background p-4 text-[clamp(1.6rem,3.2vw,3rem)]" data-sheet-headline>Every floor,<br />checked.</p>
         </div>
       </div>
     </section>
