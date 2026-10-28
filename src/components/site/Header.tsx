@@ -40,16 +40,14 @@ export function Header({ compact = false }: { compact?: boolean }) {
         {items.map((it) => {
           const active = pathname === it.to || it.children?.some((c) => c.to === pathname);
           return (
-            <div key={it.label} className="relative" onMouseEnter={() => setOpen(it.label)} onMouseLeave={() => setOpen(null)} onFocus={() => setOpen(it.label)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(null); }}>
+            <div key={it.label} className="nav-cell relative" onMouseEnter={() => setOpen(it.label)} onMouseLeave={() => setOpen(null)} onFocus={() => setOpen(it.label)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(null); }}>
               <Link
                 to={it.to}
-                className={`group relative flex h-10 w-[92px] border-l border-border px-1.5 pt-1.5 label transition-colors lg:w-[92px] ${active ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                className={`nav-cell-link relative flex h-10 w-[92px] border-l border-border px-1.5 pt-1.5 label lg:w-[92px] ${active ? "text-foreground" : "text-muted-foreground"}`}
               >
-                <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dither" />
                 <span className="relative">{it.label}</span>
-                {active && <span className="absolute right-2 top-1/2 h-1 w-1 bg-foreground" />}
               </Link>
-              {it.children && <Button variant="ghost" size="icon" aria-label={`Toggle ${it.label} menu`} aria-expanded={open === it.label} aria-controls={`nav-${it.label.toLowerCase()}`} onClick={() => setOpen(current => current === it.label ? null : it.label)} className="absolute bottom-0 right-0 h-5 w-5 text-muted-foreground [&_svg]:size-3"><ChevronDown /></Button>}
+              {it.children && <Button variant="ghost" size="icon" aria-label={`Toggle ${it.label} menu`} aria-expanded={open === it.label} aria-controls={`nav-${it.label.toLowerCase()}`} onClick={() => setOpen(current => current === it.label ? null : it.label)} className="nav-cell-toggle absolute bottom-0 right-0 h-5 w-5 text-muted-foreground [&_svg]:size-3"><ChevronDown /></Button>}
               {it.children && open === it.label && (
                 <div id={`nav-${it.label.toLowerCase()}`} className="absolute left-0 top-10 w-[146px] border border-border bg-background fade-in [animation-duration:200ms]">
                   {it.children.map((c) => (

@@ -1,18 +1,28 @@
 import { useEffect, useRef, useState } from "react";
-import house from "@/assets/hero-house.jpg";
 import { Corners } from "./Bits";
 
-/** Line-drawing paths approximating the house elevation (viewBox 1600x800). */
-const lines = [
-  "M260 105 H1355 V155 H260 Z", "M1080 58 H1237 V105",
-  "M260 390 H1355 V440 H260 Z", "M340 155 V665 M1255 155 V665",
-  "M365 200 H710 V385 H365 Z", "M905 200 H1225 V385 H905 Z",
-  "M730 155 H885 V385 H730 Z", "M650 440 H870 V665 H650 Z",
-  "M520 465 H615 V665", "M905 465 H1225 V665 H905 Z",
-  "M150 705 L235 415 H295 V665 M150 705 H300",
-  "M300 665 H1355 V705 H300", "M60 710 H1590",
-  "M445 200 V385 M555 200 V385 M985 200 V385 M1065 200 V385 M1145 200 V385",
-  "M365 290 H710 M905 290 H1225",
+/** Grid, elevation and depth edges all use the same 100-unit drawing module. */
+const construction = [
+  "M200 100 H1500 M200 400 H1500 M100 700 H1500",
+  "M300 50 V750 M800 50 V750 M1300 50 V750",
+  "M200 750 L1500 100 M200 450 L1000 50 M800 750 L1500 400",
+];
+const structure = [
+  "M300 150 H1300 L1400 100 H400 Z",
+  "M300 150 V200 H1300 V150 M1300 200 L1400 150 V100",
+  "M400 200 V700 M1200 200 V700 M1400 150 V650 L1300 700",
+  "M300 400 H1300 V450 H300 Z M1300 400 L1400 350 V400 L1300 450",
+  "M300 700 H1300 V750 H300 Z M1300 750 L1400 700 V650 M1300 700 L1400 650",
+  "M1100 150 V100 H1200 V150 M1100 100 L1200 50 H1300 V100 L1200 150 M1200 100 H1300",
+];
+const details = [
+  "M450 250 H700 V400 H450 Z M900 250 H1150 V400 H900 Z",
+  "M750 200 H850 V400 H750 Z M650 450 H850 V700 H650 Z",
+  "M450 500 H600 V700 H450 Z M900 500 H1150 V700 H900 Z",
+  "M500 250 V400 M600 250 V400 M950 250 V400 M1050 250 V400",
+  "M450 350 H700 M900 350 H1150 M950 500 V700 M1050 500 V700",
+  "M1320 250 L1380 220 V330 L1320 360 Z M1320 500 L1380 470 V600 L1320 630 Z",
+  "M100 750 H1500 M200 750 L300 450 H400 M200 750 H300 M250 600 H400",
 ];
 
 export function HeroStage() {
@@ -52,6 +62,7 @@ export function HeroStage() {
   return (
     <div
       ref={box}
+      data-intro-phase={phase}
       data-cursor="native"
       className="relative h-[calc(100svh-14rem)] min-h-[260px] md:h-[calc(100svh-10rem)] md:min-h-[360px] cursor-crosshair select-none overflow-hidden"
       onMouseMove={(e) => {
@@ -64,22 +75,22 @@ export function HeroStage() {
     >
       <Corners />
       <div className="absolute inset-x-[10%] inset-y-[8%] flex items-center justify-center">
-        <svg viewBox="0 0 1600 800" className={`absolute h-full w-full transition-opacity duration-1000 ${phase === "done" ? "opacity-0" : "opacity-100"}`} fill="none" stroke="var(--foreground)" strokeWidth="2">
-          {lines.map((d, i) => (
-            <path key={i} d={d} pathLength={1} className="draw-line" style={{ animationDelay: `${i * 110}ms` }} />
-          ))}
+        <svg viewBox="0 0 1600 800" className="h-full w-full" fill="none" stroke="var(--foreground)" strokeWidth="2" strokeLinejoin="miter" role="img" aria-label="Architectural house drafted directly on a shared construction grid" data-hero-drawing data-complete={phase === "done"}>
+          <g stroke="var(--line)" strokeWidth="1" className="hero-draft-grid">
+            {Array.from({ length: 17 }, (_, i) => <path key={`v${i}`} d={`M${i * 100} 0 V800`} />)}
+            {Array.from({ length: 9 }, (_, i) => <path key={`h${i}`} d={`M0 ${i * 100} H1600`} />)}
+          </g>
+          <g stroke="var(--border)" strokeWidth="1">
+            {construction.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${250 + i * 140}ms` }} />)}
+          </g>
+          <g>
+            {structure.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${650 + i * 100}ms` }} />)}
+          </g>
+          <g strokeWidth="1.25">
+            {details.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${1200 + i * 50}ms` }} />)}
+          </g>
+          {phase === "done" && <g fill="var(--primary)" stroke="none" className="fade-in"><rect x="650" y="450" width="8" height="8" /><rect x="1050" y="500" width="8" height="8" /></g>}
         </svg>
-        <img
-          src={house} width={1600} height={800} alt="Architectural elevation of a concrete house between bare trees"
-          className={`relative max-h-full w-auto object-contain mix-blend-multiply transition-all duration-[1400ms] ${phase === "done" ? "opacity-100 [clip-path:inset(0_0_0_0)]" : "opacity-0 [clip-path:inset(100%_0_0_0)]"}`}
-          draggable={false}
-        />
-        {phase === "done" && (
-          <>
-            <span className="absolute left-[33%] top-[52%] h-2 w-2 bg-primary fade-in" />
-            <span className="absolute left-[60%] top-[56%] h-2 w-2 bg-primary fade-in" />
-          </>
-        )}
       </div>
 
       {phase === "draw" && (
