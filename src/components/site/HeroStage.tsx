@@ -1,32 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 import { Corners } from "./Bits";
+import house from "@/assets/hero-house.jpg";
 
-/** Grid, elevation and depth edges all use the same 100-unit drawing module. */
+/** Construction edges trace the rendered elevation in the same image coordinates. */
 const construction = [
-  "M200 100 H1500 M200 400 H1500 M100 700 H1500",
-  "M300 50 V750 M800 50 V750 M1300 50 V750",
-  "M200 750 L1500 100 M200 450 L1000 50 M800 750 L1500 400",
+  "M0 101 H1536 M0 373 H1536 M0 640 H1536 M0 680 H1536",
+  "M246 0 V768 M700 0 V768 M849 0 V768 M1300 0 V768",
+  "M0 149 H1536 M330 0 V768 M1200 0 V768",
 ];
 const structure = [
-  "M300 150 H1300 L1400 100 H400 Z",
-  "M300 150 V200 H1300 V150 M1300 200 L1400 150 V100",
-  "M400 200 V700 M1200 200 V700 M1400 150 V650 L1300 700",
-  "M300 400 H1300 V450 H300 Z M1300 400 L1400 350 V400 L1300 450",
-  "M300 700 H1300 V750 H300 Z M1300 750 L1400 700 V650 M1300 700 L1400 650",
-  "M1100 150 V100 H1200 V150 M1100 100 L1200 50 H1300 V100 L1200 150 M1200 100 H1300",
+  "M246 101 H1300 V149 H246 Z M246 149 L300 194 H700 M849 194 H1200 L1300 149",
+  "M300 149 V373 M330 149 V373 M1200 149 V640 M1220 149 V640",
+  "M700 149 V373 H849 V149 M700 194 H849",
+  "M246 373 H1300 V418 H246 Z M246 418 L285 448 H623 M837 448 H1220 L1300 418",
+  "M285 418 V640 H325 V448 M623 418 V640 H837 V418",
+  "M250 640 H1300 V680 H250 Z M1042 101 V54 H1188 V101 M1042 54 L1035 72 V101",
 ];
 const details = [
-  "M450 250 H700 V400 H450 Z M900 250 H1150 V400 H900 Z",
-  "M750 200 H850 V400 H750 Z M650 450 H850 V700 H650 Z",
-  "M450 500 H600 V700 H450 Z M900 500 H1150 V700 H900 Z",
-  "M500 250 V400 M600 250 V400 M950 250 V400 M1050 250 V400",
-  "M450 350 H700 M900 350 H1150 M950 500 V700 M1050 500 V700",
-  "M1320 250 L1380 220 V330 L1320 360 Z M1320 500 L1380 470 V600 L1320 630 Z",
-  "M100 750 H1500 M200 750 L300 450 H400 M200 750 H300 M250 600 H400",
+  "M350 194 H682 V373 H350 Z M868 194 H1174 V373 H868 Z",
+  "M350 242 H682 M350 290 H682 M350 338 H682 M868 242 H1174 M868 290 H1174 M868 338 H1174",
+  "M458 194 V373 M530 194 V373 M606 194 V373 M974 194 V373 M1100 194 V373",
+  "M349 448 H459 V640 H349 Z M497 448 H590 V640 H497 Z M867 448 H1173 V640 H867 Z",
+  "M349 497 H459 M349 541 H459 M349 591 H459 M399 448 V640 M927 448 V640 M1051 448 V640 M867 542 H1173",
+  "M1220 309 H1274 V373 M350 310 H700 M849 310 H1200",
+  "M128 680 L205 397 L246 420 M141 680 L219 427 L285 450 M0 695 H1536",
 ];
 
 export function HeroStage() {
-  const [phase, setPhase] = useState<"draw" | "done">("draw");
+  const [phase, setPhase] = useState<"draw" | "reveal" | "done">("draw");
   const [pct, setPct] = useState(0);
   const [m, setM] = useState<{ x: number; y: number } | null>(null);
   const [drag, setDrag] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
@@ -41,7 +42,9 @@ export function HeroStage() {
     const t0 = performance.now();
     let raf = 0;
     const tick = (t: number) => {
-      const p = Math.min(100, ((t - t0) / 2600) * 100);
+      const elapsed = t - t0;
+      const p = Math.min(100, (elapsed / 4400) * 100);
+      if (elapsed >= 2600 && p < 100) setPhase("reveal");
       setPct(Math.round(p));
       if (p < 100) raf = requestAnimationFrame(tick);
       else {
@@ -75,7 +78,8 @@ export function HeroStage() {
     >
       <Corners />
       <div className="absolute inset-x-[10%] inset-y-[8%] flex items-center justify-center">
-        <svg viewBox="0 0 1600 800" className="h-full w-full" fill="none" stroke="var(--foreground)" strokeWidth="2" strokeLinejoin="miter" role="img" aria-label="Architectural house drafted directly on a shared construction grid" data-hero-drawing data-complete={phase === "done"}>
+        <svg viewBox="0 0 1536 768" className="h-full w-full" fill="none" stroke="var(--foreground)" strokeWidth="2" strokeLinejoin="miter" role="img" aria-label="Construction lines resolve into a finished monochrome architectural building" data-hero-drawing data-complete={phase === "done"}>
+          <g className="hero-construction-layer">
           <g stroke="var(--line)" strokeWidth="1" className="hero-draft-grid">
             {Array.from({ length: 17 }, (_, i) => <path key={`v${i}`} d={`M${i * 100} 0 V800`} />)}
             {Array.from({ length: 9 }, (_, i) => <path key={`h${i}`} d={`M0 ${i * 100} H1600`} />)}
@@ -89,7 +93,9 @@ export function HeroStage() {
           <g strokeWidth="1.25">
             {details.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${1200 + i * 50}ms` }} />)}
           </g>
-          {phase === "done" && <g fill="var(--primary)" stroke="none" className="fade-in"><rect x="650" y="450" width="8" height="8" /><rect x="1050" y="500" width="8" height="8" /></g>}
+          </g>
+          <image href={house} x="0" y="0" width="1536" height="768" className="hero-building-render" />
+          {phase === "done" && <g fill="var(--primary)" stroke="none" className="fade-in"><rect x="623" y="448" width="8" height="8" /><rect x="1051" y="542" width="8" height="8" /></g>}
         </svg>
       </div>
 
