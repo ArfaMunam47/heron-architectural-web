@@ -127,6 +127,27 @@
 @utility grow-y { transform-origin: top; animation: line-grow-y 1.2s var(--ease-arch) both; }
 
 .hero-draft-grid { animation: fade-in 300ms ease both; }
+.hero-construction-layer { animation: hero-guides-resolve 1600ms ease 2600ms both; }
+.hero-building-render {
+  opacity: 0;
+  filter: grayscale(1);
+  mix-blend-mode: multiply;
+  animation: hero-building-resolve 1600ms ease 2600ms both;
+}
+@keyframes hero-building-resolve {
+  from { opacity: 0; clip-path: inset(100% 0 0 0); }
+  to { opacity: 1; clip-path: inset(0); }
+}
+@keyframes hero-guides-resolve { to { opacity: 0; } }
+[data-hero-drawing][data-complete="true"] .hero-building-render {
+  animation: none;
+  opacity: 1;
+  clip-path: inset(0);
+}
+[data-hero-drawing][data-complete="true"] .hero-construction-layer {
+  animation: none;
+  opacity: 0;
+}
 .hero-draft-edge {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
