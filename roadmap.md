@@ -12,3 +12,4 @@
 - [x] Complete shared footer and honest contact submission state.
 - [x] Verify every page, interactions, reduced motion, desktop and mobile layouts.
 - [x] Redesign About page, refine award badge, Discover More hover, logo marquee, back-to-dashboard link.
+- [ ] Match the reference opening: draw aligned construction lines, then reveal the finished building; preserve all other content.
