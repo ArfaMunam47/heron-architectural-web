@@ -1,29 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 import { Corners } from "./Bits";
-import house from "@/assets/hero-house.jpg";
+import house from "@/assets/hero-house-clean.jpg";
 
-/** Construction edges trace the rendered elevation in the same image coordinates. */
+/** Clean elevation traced to the rendered house in the same 1536x768 image coordinates. */
 const construction = [
-  "M0 101 H1536 M0 373 H1536 M0 640 H1536 M0 680 H1536",
-  "M246 0 V768 M700 0 V768 M849 0 V768 M1300 0 V768",
-  "M0 149 H1536 M330 0 V768 M1200 0 V768",
+  "M0 100 H1536 M0 371 H1536 M0 637 H1536 M0 676 H1536",
+  "M246 0 V768 M701 0 V768 M849 0 V768 M1298 0 V768",
 ];
 const structure = [
-  "M246 101 H1300 V149 H246 Z M246 149 L300 194 H700 M849 194 H1200 L1300 149",
-  "M300 149 V373 M330 149 V373 M1200 149 V640 M1220 149 V640",
-  "M700 149 V373 H849 V149 M700 194 H849",
-  "M246 373 H1300 V418 H246 Z M246 418 L285 448 H623 M837 448 H1220 L1300 418",
-  "M285 418 V640 H325 V448 M623 418 V640 H837 V418",
-  "M250 640 H1300 V680 H250 Z M1042 101 V54 H1188 V101 M1042 54 L1035 72 V101",
+  "M246 100 H1298 V150 H246 Z M1037 100 V54 H1187 V100",
+  "M246 371 H1298 V419 H246 Z",
+  "M250 637 H1298 V676 H250 Z",
+  "M326 150 V371 M346 150 V371 M1200 150 V371 M1213 150 V371",
+  "M326 419 V637 M346 419 V637 M1200 419 V637 M1213 419 V637",
+  "M701 150 V371 H849 V150 M620 419 V637 H835 V419",
+  "M125 676 V560 L230 397 H288 V419 M150 676 V575 L246 430",
 ];
 const details = [
-  "M350 194 H682 V373 H350 Z M868 194 H1174 V373 H868 Z",
-  "M350 242 H682 M350 290 H682 M350 338 H682 M868 242 H1174 M868 290 H1174 M868 338 H1174",
-  "M458 194 V373 M530 194 V373 M606 194 V373 M974 194 V373 M1100 194 V373",
-  "M349 448 H459 V640 H349 Z M497 448 H590 V640 H497 Z M867 448 H1173 V640 H867 Z",
-  "M349 497 H459 M349 541 H459 M349 591 H459 M399 448 V640 M927 448 V640 M1051 448 V640 M867 542 H1173",
-  "M1220 309 H1274 V373 M350 310 H700 M849 310 H1200",
-  "M128 680 L205 397 L246 420 M141 680 L219 427 L285 450 M0 695 H1536",
+  "M346 192 H682 V371 M854 192 H1200",
+  "M458 192 V371 M570 192 V371 M966 192 V371 M1083 192 V371",
+  "M346 311 H701 M849 311 H1200",
+  "M346 442 H457 V637 M499 442 H595 V637 M499 442 V637 M839 442 H1200 V637 M839 442 V637",
+  "M401 442 V637 M346 540 H457 M960 442 V637 M1080 442 V637 M839 540 H1200",
+  "M150 600 H250 M165 575 H250 M180 550 H250 M195 525 H250 M210 500 H250 M225 475 H250 M240 450 H250",
+  "M0 690 H1536",
 ];
 
 export function HeroStage() {
@@ -81,7 +81,7 @@ export function HeroStage() {
     >
       <Corners />
       <div className="absolute inset-x-[10%] inset-y-[8%] flex items-center justify-center">
-        <svg viewBox="0 0 1536 768" className="h-full w-full" fill="none" stroke="var(--foreground)" strokeWidth="2" strokeLinejoin="miter" role="img" aria-label="Construction lines resolve into a finished monochrome architectural building" data-hero-drawing data-complete={phase === "done"}>
+        <svg viewBox="0 0 1536 768" className="h-full w-full" fill="none" stroke="var(--foreground)" strokeWidth="2" strokeLinejoin="miter" strokeLinecap="square" role="img" aria-label="Construction lines resolve into a finished monochrome architectural building" data-hero-drawing data-complete={phase === "done"}>
           <g className="hero-construction-layer" style={phase === "reveal" ? { clipPath: `inset(0 0 ${rv}% 0)` } : undefined}>
           <g stroke="var(--line)" strokeWidth="1" className="hero-draft-grid">
             {Array.from({ length: 17 }, (_, i) => <path key={`v${i}`} d={`M${i * 100} 0 V800`} />)}
@@ -90,16 +90,16 @@ export function HeroStage() {
           <g stroke="var(--border)" strokeWidth="1">
             {construction.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${250 + i * 140}ms` }} />)}
           </g>
-          <g>
+          <g strokeWidth="1.6">
             {structure.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${650 + i * 100}ms` }} />)}
           </g>
-          <g strokeWidth="1.25">
+          <g strokeWidth="1" stroke="color-mix(in oklab, var(--foreground) 70%, transparent)">
             {details.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${1200 + i * 50}ms` }} />)}
           </g>
           </g>
           <image href={house} x="0" y="0" width="1536" height="768" className="hero-building-render" style={phase === "reveal" ? { clipPath: `inset(${100 - rv}% 0 0 0)`, opacity: 1 } : undefined} />
           {phase === "reveal" && <path d={`M0 ${768 - rv * 7.68} H1536`} stroke="var(--primary)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />}
-          {phase === "done" && <g fill="var(--primary)" stroke="none" className="fade-in"><rect x="623" y="448" width="8" height="8" /><rect x="1051" y="542" width="8" height="8" /></g>}
+          {phase === "done" && <g fill="var(--primary)" stroke="none" className="fade-in"><rect x="616" y="520" width="8" height="8" /><rect x="1076" y="536" width="8" height="8" /></g>}
         </svg>
       </div>
 
