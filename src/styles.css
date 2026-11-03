@@ -127,12 +127,10 @@
 @utility grow-y { transform-origin: top; animation: line-grow-y 1.2s var(--ease-arch) both; }
 
 .hero-draft-grid { animation: fade-in 300ms ease both; }
-.hero-construction-layer { animation: hero-guides-resolve 1600ms ease 2600ms both; }
 .hero-building-render {
   opacity: 0;
   filter: grayscale(1);
   mix-blend-mode: multiply;
-  animation: hero-building-resolve 1600ms ease 2600ms both;
 }
 @keyframes hero-building-resolve {
   from { opacity: 0; clip-path: inset(100% 0 0 0); }
