@@ -87,19 +87,19 @@ export function HeroStage() {
             {Array.from({ length: 17 }, (_, i) => <path key={`v${i}`} d={`M${i * 100} 0 V800`} />)}
             {Array.from({ length: 9 }, (_, i) => <path key={`h${i}`} d={`M0 ${i * 100} H1600`} />)}
           </g>
-          <g stroke="var(--border)" strokeWidth="0.75" vectorEffect="non-scaling-stroke">
-            {construction.map((d, i) => <path key={d} d={d} pathLength={1} vectorEffect="non-scaling-stroke" className="hero-draft-edge" style={{ animationDelay: `${250 + i * 140}ms` }} />)}
+          <g stroke="var(--border)" strokeWidth="1">
+            {construction.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${250 + i * 140}ms` }} />)}
           </g>
-          <g strokeWidth="1.25">
-            {structure.map((d, i) => <path key={d} d={d} pathLength={1} vectorEffect="non-scaling-stroke" className="hero-draft-edge" style={{ animationDelay: `${650 + i * 100}ms` }} />)}
+          <g strokeWidth="1.6">
+            {structure.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${650 + i * 100}ms` }} />)}
           </g>
-          <g strokeWidth="0.75" stroke="color-mix(in oklab, var(--foreground) 70%, transparent)">
-            {details.map((d, i) => <path key={d} d={d} pathLength={1} vectorEffect="non-scaling-stroke" className="hero-draft-edge" style={{ animationDelay: `${1200 + i * 50}ms` }} />)}
+          <g strokeWidth="1" stroke="color-mix(in oklab, var(--foreground) 70%, transparent)">
+            {details.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${1200 + i * 50}ms` }} />)}
           </g>
           </g>
           <image href={house} x="0" y="0" width="1536" height="768" className="hero-building-render" style={phase === "reveal" ? { clipPath: `inset(${100 - rv}% 0 0 0)`, opacity: 1 } : undefined} />
           {phase === "reveal" && <path d={`M0 ${768 - rv * 7.68} H1536`} stroke="var(--primary)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />}
-          {phase === "done" && <g fill="var(--primary)" stroke="none" className="fade-in"><rect x="623" y="448" width="8" height="8" /><rect x="1051" y="542" width="8" height="8" /></g>}
+          {phase === "done" && <g fill="var(--primary)" stroke="none" className="fade-in"><rect x="616" y="520" width="8" height="8" /><rect x="1076" y="536" width="8" height="8" /></g>}
         </svg>
       </div>
 
