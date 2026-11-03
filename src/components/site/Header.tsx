@@ -40,14 +40,15 @@ export function Header({ compact = false }: { compact?: boolean }) {
         {items.map((it) => {
           const active = pathname === it.to || it.children?.some((c) => c.to === pathname);
           return (
-            <div key={it.label} className="nav-cell relative" onMouseEnter={() => setOpen(it.label)} onMouseLeave={() => setOpen(null)} onFocus={() => setOpen(it.label)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(null); }}>
+            <div key={it.label} className="nav-cell relative" onPointerEnter={(e) => { if (e.pointerType === "mouse") setOpen(it.label); }} onPointerLeave={(e) => { if (e.pointerType === "mouse") setOpen(null); }} onFocus={(e) => { if (e.target.matches(":focus-visible")) setOpen(it.label); }} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(null); }}>
               <Link
                 to={it.to}
                 className={`nav-cell-link relative flex h-10 w-[92px] border-l border-border px-1.5 pt-1.5 label lg:w-[92px] ${active ? "text-foreground" : "text-muted-foreground"}`}
               >
                 <span className="relative">{it.label}</span>
+                {it.children && <ChevronDown aria-hidden className="nav-cell-toggle pointer-events-none absolute bottom-1 right-1 size-3" />}
               </Link>
-              {it.children && <Button variant="ghost" size="icon" aria-label={`Toggle ${it.label} menu`} aria-expanded={open === it.label} aria-controls={`nav-${it.label.toLowerCase()}`} onClick={() => setOpen(current => current === it.label ? null : it.label)} className="nav-cell-toggle absolute bottom-0 right-0 h-5 w-5 text-muted-foreground [&_svg]:size-3"><ChevronDown /></Button>}
+
               {it.children && open === it.label && (
                 <div id={`nav-${it.label.toLowerCase()}`} className="absolute left-0 top-10 w-[146px] border border-border bg-background fade-in [animation-duration:200ms]">
                   {it.children.map((c) => (

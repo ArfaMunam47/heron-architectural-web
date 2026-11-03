@@ -56,6 +56,9 @@ export function HeroStage() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  // The same traveling line hands each band from drawing to built render.
+  const rv = Math.max(0, Math.min(100, ((pct - 59) / 41) * 100));
+
   const pos = (e: React.MouseEvent) => {
     const r = box.current?.getBoundingClientRect();
     if (!r) return { x: 0, y: 0 };
@@ -79,7 +82,7 @@ export function HeroStage() {
       <Corners />
       <div className="absolute inset-x-[10%] inset-y-[8%] flex items-center justify-center">
         <svg viewBox="0 0 1536 768" className="h-full w-full" fill="none" stroke="var(--foreground)" strokeWidth="2" strokeLinejoin="miter" role="img" aria-label="Construction lines resolve into a finished monochrome architectural building" data-hero-drawing data-complete={phase === "done"}>
-          <g className="hero-construction-layer">
+          <g className="hero-construction-layer" style={phase === "reveal" ? { clipPath: `inset(0 0 ${rv}% 0)` } : undefined}>
           <g stroke="var(--line)" strokeWidth="1" className="hero-draft-grid">
             {Array.from({ length: 17 }, (_, i) => <path key={`v${i}`} d={`M${i * 100} 0 V800`} />)}
             {Array.from({ length: 9 }, (_, i) => <path key={`h${i}`} d={`M0 ${i * 100} H1600`} />)}
@@ -94,13 +97,14 @@ export function HeroStage() {
             {details.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${1200 + i * 50}ms` }} />)}
           </g>
           </g>
-          <image href={house} x="0" y="0" width="1536" height="768" className="hero-building-render" />
+          <image href={house} x="0" y="0" width="1536" height="768" className="hero-building-render" style={phase === "reveal" ? { clipPath: `inset(${100 - rv}% 0 0 0)`, opacity: 1 } : undefined} />
+          {phase === "reveal" && <path d={`M0 ${768 - rv * 7.68} H1536`} stroke="var(--primary)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />}
           {phase === "done" && <g fill="var(--primary)" stroke="none" className="fade-in"><rect x="623" y="448" width="8" height="8" /><rect x="1051" y="542" width="8" height="8" /></g>}
         </svg>
       </div>
 
       {phase === "draw" && (
-        <div className="pointer-events-none absolute inset-x-0 h-px bg-primary" style={{ top: `${100 - pct * 0.85}%` }}>
+        <div className="pointer-events-none absolute inset-x-0 h-px bg-primary" style={{ top: `${100 - pct * 1.45}%` }}>
           <span className="absolute -top-4 left-4 label text-primary">{pct}%</span>
         </div>
       )}
