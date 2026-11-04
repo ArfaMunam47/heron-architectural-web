@@ -208,5 +208,5 @@
 }
 
 @media (min-width: 768px) {
-  .display { font-size: var(--editorial-size, inherit); }
+  .display[style*="--editorial-size"] { font-size: var(--editorial-size); }
 }
