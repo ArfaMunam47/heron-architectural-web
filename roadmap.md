@@ -13,3 +13,4 @@
 - [x] Verify every page, interactions, reduced motion, desktop and mobile layouts.
 - [x] Redesign About page, refine award badge, Discover More hover, logo marquee, back-to-dashboard link.
 - [x] Match the reference opening: draw aligned construction lines, then reveal the finished building; preserve all other content.
+- [x] Make navigation respond on first click and rebalance homepage section hierarchy and spacing.
