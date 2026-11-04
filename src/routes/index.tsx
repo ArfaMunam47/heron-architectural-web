@@ -26,12 +26,12 @@ function Index() {
       <main>
         <HeroStage />
         <section className="grid border-t border-border md:grid-cols-[1.15fr_0.65fr_0.2fr]">
-          <h1 className="display p-4 text-[clamp(1.8rem,3.4vw,3.6rem)] md:pt-3">
+          <h1 className="display p-6 text-[clamp(1.8rem,3.4vw,3.6rem)] md:p-8 md:pt-6">
             <Reveal>An AI agent that works</Reveal>
             <Reveal delay={120}>inside your design tools</Reveal>
           </h1>
-          <div className="flex flex-col border-l border-border">
-            <p className="flex-1 p-2 text-[13px] leading-snug fade-in [animation-delay:400ms]">
+          <div className="flex flex-col border-t border-border md:border-l md:border-t-0">
+            <p className="flex-1 p-6 text-[13px] leading-relaxed md:pt-7 fade-in [animation-delay:400ms]">
               Heron reviews your model, identifies issues, and proposes solutions. Upon approval, it edits automatically. This concept crafted by <a className="font-semibold underline" href="https://bearplus.com" target="_blank" rel="noreferrer">Bearplus agency</a>, the award-winning design agency.
             </p>
           </div>
@@ -40,10 +40,10 @@ function Index() {
         <Ticker />
 
         <section className="grid border-t border-border md:grid-cols-2">
-          <div className="flex flex-col justify-end p-4">
+          <div className="flex flex-col justify-end p-6 md:p-8">
             <h2 className="display text-[clamp(1.8rem,3vw,2.8rem)]">Designed<br />by Bearplus,<br />the award-winning<br />design agency</h2>
           </div>
-          <div className="grid grid-cols-2 gap-4 border-l border-border p-4 font-mono text-[9px] uppercase leading-relaxed text-muted-foreground">
+          <div className="grid grid-cols-2 gap-6 border-t border-border p-6 font-mono md:border-l md:border-t-0 md:p-8 text-[9px] uppercase leading-relaxed text-muted-foreground">
             <dl className="space-y-1">
               <div className="text-foreground">Welcome to Heron AI</div>
               <div className="grid grid-cols-[64px_1fr]"><dt>Type</dt><dd>: Technology/AI software company</dd></div>
