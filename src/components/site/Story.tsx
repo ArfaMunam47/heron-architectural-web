@@ -5,6 +5,7 @@ import tower from '@/assets/tower.jpg';
 import workflow from '@/assets/art-workflow.jpg';
 import { articles } from '@/lib/articles';
 import { TaskDemo } from './TaskDemo';
+import { FaqSection } from './Faq';
 
 export function Workflow() {
   const stages = [
@@ -30,6 +31,7 @@ export function HomeStory() {
     <Workflow />
     <section className="grid border-t border-border md:grid-cols-[1.15fr_1fr]"><div className="flex items-center border-b border-border md:border-b-0"><img src={workflow} width={1200} height={912} alt="Exploded architectural model with separated floor plates" loading="lazy" className="aspect-[4/3] w-full object-cover mix-blend-multiply"/></div><div className="flex flex-col border-border md:border-l"><div className="p-6 md:p-8"><p className="label mb-4 text-primary">One project. A clear view.</p><h2 className="display text-3xl lg:text-[2.6rem]">See every change,<br />flag, and approval<br />in one place.</h2><p className="mt-6 max-w-sm text-sm leading-relaxed">From a model issue to a proposed edit, keep the review trail connected to the work.</p></div><ol className="mt-auto border-t border-border font-mono text-[10px] uppercase">{[['Flag', 'Narrow doors · Level 02', 'Raised'], ['Change', 'Door width 900 → 920 mm', 'Proposed'], ['Approval', 'Sample model', 'Pending']].map(([k, d, st], i) => <li key={k} className="grid grid-cols-[72px_1fr_auto] gap-3 border-b border-border px-6 py-3 md:px-8"><span className="text-muted-foreground">{k}</span><span>{d}</span><span className={i === 2 ? 'text-primary' : 'text-muted-foreground'}>{st}</span></li>)}</ol><div className="p-6 md:px-8"><Link to="/heron-dashboard" className="label inline-flex text-primary">Explore Dashboard ↗</Link></div></div></section>
     <TaskDemo />
+    <FaqSection />
     <section className="border-t border-border"><div className="flex flex-wrap items-end justify-between gap-6 p-6 md:p-8"><h2 className="display text-3xl md:text-5xl">Notes from<br />the design desk.</h2><Link to="/resources" className="label text-primary">All resources ↗</Link></div><div className="grid sm:grid-cols-3">{[articles[0]!,articles[4]!,articles[5]!].map(a => <Link key={a.slug} to="/resources/$slug" params={{slug:a.slug}} className="group border-t border-border p-6 sm:border-r last:border-r-0"><img src={a.image} width={1200} height={912} loading="lazy" alt="Architectural editorial composition" className="aspect-[4/3] w-full object-cover mix-blend-multiply transition-opacity group-hover:opacity-80"/><p className="label mt-4 text-muted-foreground">Sample editorial / {a.category.replaceAll('-',' ')}</p><h3 className="display mt-2 text-xl">{a.title} ↗</h3></Link>)}</div></section>
     <ClosingCTA />
   </>;

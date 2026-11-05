@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutUsRouteImport } from './routes/about-us'
 import { Route as ContactUsRouteImport } from './routes/contact-us'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as HeronChatWidgetRouteImport } from './routes/heron-chat-widget'
 import { Route as HeronDashboardRouteImport } from './routes/heron-dashboard'
 import { Route as PricingRouteImport } from './routes/pricing'
@@ -31,6 +32,11 @@ const AboutUsRoute = AboutUsRouteImport.update({
 const ContactUsRoute = ContactUsRouteImport.update({
   id: '/contact-us',
   path: '/contact-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HeronChatWidgetRoute = HeronChatWidgetRouteImport.update({
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
   '/contact-us': typeof ContactUsRoute
+  '/faq': typeof FaqRoute
   '/heron-chat-widget': typeof HeronChatWidgetRoute
   '/heron-dashboard': typeof HeronDashboardRoute
   '/pricing': typeof PricingRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
   '/contact-us': typeof ContactUsRoute
+  '/faq': typeof FaqRoute
   '/heron-chat-widget': typeof HeronChatWidgetRoute
   '/heron-dashboard': typeof HeronDashboardRoute
   '/pricing': typeof PricingRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
   '/contact-us': typeof ContactUsRoute
+  '/faq': typeof FaqRoute
   '/heron-chat-widget': typeof HeronChatWidgetRoute
   '/heron-dashboard': typeof HeronDashboardRoute
   '/pricing': typeof PricingRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about-us'
     | '/contact-us'
+    | '/faq'
     | '/heron-chat-widget'
     | '/heron-dashboard'
     | '/pricing'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about-us'
     | '/contact-us'
+    | '/faq'
     | '/heron-chat-widget'
     | '/heron-dashboard'
     | '/pricing'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about-us'
     | '/contact-us'
+    | '/faq'
     | '/heron-chat-widget'
     | '/heron-dashboard'
     | '/pricing'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutUsRoute: typeof AboutUsRoute
   ContactUsRoute: typeof ContactUsRoute
+  FaqRoute: typeof FaqRoute
   HeronChatWidgetRoute: typeof HeronChatWidgetRoute
   HeronDashboardRoute: typeof HeronDashboardRoute
   PricingRoute: typeof PricingRoute
@@ -155,6 +168,13 @@ declare module '@tanstack/react-router' {
       path: '/contact-us'
       fullPath: '/contact-us'
       preLoaderRoute: typeof ContactUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/heron-chat-widget': {
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutUsRoute: AboutUsRoute,
   ContactUsRoute: ContactUsRoute,
+  FaqRoute: FaqRoute,
   HeronChatWidgetRoute: HeronChatWidgetRoute,
   HeronDashboardRoute: HeronDashboardRoute,
   PricingRoute: PricingRoute,
