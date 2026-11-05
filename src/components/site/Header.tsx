@@ -17,6 +17,7 @@ const items: Item[] = [
     { label: "Insights", to: "/resources", hash: "insights" },
     { label: "AI Practices", to: "/resources", hash: "ai-practices" },
     { label: "Design Workflows", to: "/resources", hash: "design-workflows" },
+    { label: "FAQ", to: "/faq" },
   ] },
   { label: "About", to: "/about-us" },
 ];
