@@ -51,7 +51,7 @@ export function TaskDemo() {
               <text x="92" y="190">16 000</text><text x="200" y="93" transform="rotate(90 200 93)">14 000</text>
               <g fontSize="3.6"><text x="55" y="170">8 000</text><text x="115" y="170">4 000</text><text x="155" y="170">4 000</text></g>
               <text x="24" y="30" fill="var(--foreground)">A</text><text x="104" y="30" fill="var(--foreground)">B</text><text x="24" y="100" fill="var(--foreground)">C</text><text x="144" y="100" fill="var(--foreground)">D</text>
-              <g fontSize="3.4"><text x="44" y="62">STUDIO · 56 m²</text><text x="124" y="62">MEETING · 56 m²</text><text x="44" y="122">OFFICE · 56 m²</text><text x="108" y="132">STORE</text><text x="150" y="122">WC · 28 m²</text></g>
+              <g fontSize="3.4"><text x="44" y="62">STUDIO · 56 m²</text><text x="124" y="62">MEETING · 56 m²</text><text x="44" y="122">OFFICE · 56 m²</text><text x="108" y="132">STORE</text><text x="150" y="152">WC · 28 m²</text></g>
             </g>
             {active && [[100, 65], [65, 90], [140, 120]].map(([x, y], k) => <g key={k} className="fade-in" style={{ animationDelay: `${k * 200}ms` }}><circle cx={x} cy={y} r="4" stroke={mark} strokeWidth=".8"/><text x={x! + 6} y={y! - 4} fontFamily="var(--font-mono)" fontSize="6" fill={mark} stroke="none">D-0{k + 1}</text>{done && <text x={x! + 6} y={y! + 3} fontFamily="var(--font-mono)" fontSize="3.6" fill={mark} stroke="none">{isDoor ? '900 → 920' : 'FLAGGED'}</text>}</g>)}
           </g></svg>

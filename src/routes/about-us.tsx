@@ -68,7 +68,7 @@ function HeroDrawing() {
       <text x="330" y="194" className="label" fill="var(--primary)" fontSize="10">DOOR D-14</text>
       <g fontFamily="var(--font-mono)" fontSize="6" fill="var(--muted-foreground)">
         {[[330, "±0.000"], [230, "+3.200"], [144, "+6.400"]].map(([y, t]) => <g key={t as string}><path d={`M28 ${y}H48 M34 ${(y as number) - 5}L38 ${y}L42 ${(y as number) - 5}Z`} stroke="var(--muted-foreground)" strokeWidth=".5" /><text x="22" y={(y as number) - 7}>{t}</text></g>)}
-        <text x="146" y="160">GL-01 · TRIPLE GLAZED</text><text x="76" y="226">TIMBER CLADDING</text><text x="292" y="146">CANTILEVER 5 000</text>
+        <text x="146" y="160">GL-01 · TRIPLE GLAZED</text><text x="76" y="222">CLADDING</text><text x="296" y="138">CANTILEVER 5 000</text>
       </g>
       <Draw on d="M70 360H350 M70 353V367 M350 353V367 M120 356V364 M300 356V364" delay={900} w={.8} />
       <Draw on d="M368 144V330 M362 144H374 M362 230H374 M362 330H374" delay={1000} w={.8} />
