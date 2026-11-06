@@ -31,14 +31,29 @@ export function TaskDemo() {
       <div className="flex items-center justify-between border-b border-border px-6 py-3 md:px-8"><span className="label">Heron / Sample model</span><span className="label flex items-center gap-2 text-primary"><span className={`size-1.5 bg-primary ${phase === 'processing' ? 'animate-pulse' : ''}`} />{status}</span></div>
       <div className="relative flex flex-1 items-center justify-center bg-muted/30 px-6 py-10 md:px-10">
         <span className="absolute left-6 top-4 font-mono text-[9px] uppercase text-muted-foreground md:left-8">Plan / Level 02</span><span className="absolute right-6 top-4 font-mono text-[9px] uppercase text-muted-foreground md:right-8">Model study / Not to scale</span>
-        <svg viewBox="0 0 240 200" className="w-full max-w-[460px]" fill="none" stroke="var(--foreground)" role="img" aria-label="Sample floor plan"><title>Sample floor plan</title>
+        <svg viewBox="0 0 240 200" className="w-full max-w-[460px]" fill="none" stroke="var(--foreground)" strokeLinecap="square" role="img" aria-label="Sample floor plan"><title>Sample floor plan</title>
+          <defs><pattern id="plan-hatch" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V3" stroke="var(--muted-foreground)" strokeWidth=".35"/></pattern></defs>
           <g stroke="var(--line)" strokeWidth=".4">{[40, 80, 120, 160, 200].map(x => <path key={x} d={`M${x} 6V194`} />)}{[30, 70, 110, 150, 190].map(y => <path key={y} d={`M6 ${y}H234`} />)}</g>
-          <g transform="translate(20 10)" strokeWidth="1.5"><path d="M20 20H180V160H20Z M100 20V65 M100 95V160 M20 90H65 M85 90H180 M140 90V160"/>
-            <path d="M100 65A30 30 0 0 1 130 95 M65 90A20 20 0 0 1 85 110" stroke="var(--border)" strokeWidth="1"/>
+          <g transform="translate(20 10)">
+            <g stroke="var(--muted-foreground)" strokeWidth=".3" strokeDasharray="4 1.5 1 1.5" opacity=".7"><path d="M20 8V164 M100 8V164 M140 84V164 M180 8V164 M10 20H190 M10 90H190 M10 160H190"/></g>
+            <g fontFamily="var(--font-mono)" fontSize="4" fill="var(--muted-foreground)" stroke="var(--muted-foreground)" strokeWidth=".3">{[[20,'1'],[100,'2'],[140,'3'],[180,'4']].map(([x,l]) => <g key={l as string}><circle cx={x as number} cy="4" r="3.2" fill="var(--background)"/><text x={(x as number) - 1.2} y="5.4" stroke="none">{l}</text></g>)}</g>
+            <path d="M20 20H180V160H20Z" fill="url(#plan-hatch)" stroke="none" opacity="0" />
+            <g fill="url(#plan-hatch)" stroke="var(--foreground)" strokeWidth=".9">
+              <path d="M17 17H183V163H17Z M21 21V159H179V21Z" fillRule="evenodd"/>
+            </g>
+            <g stroke="var(--foreground)" strokeWidth="1.6"><path d="M100 21V65 M100 95V159 M21 90H65 M85 90H179 M140 91V120 M140 145V159"/></g>
+            <g stroke="var(--foreground)" strokeWidth=".5"><path d="M60 17V21 M44 17V21 M150 17V21 M120 17V21 M183 50V64 M17 120V136"/><path d="M44 18.5H60 M120 18.5H150 M181.5 50V64 M18.5 120V136" strokeWidth=".3"/></g>
+            <g stroke="var(--muted-foreground)" strokeWidth=".4"><path d="M100 65L128 77 M65 90L72 108 M140 120L158 128"/><path d="M100 65A30 30 0 0 1 130 95 M65 90A20 20 0 0 1 85 110 M140 120A25 25 0 0 1 163 133" strokeDasharray="1.5 1"/></g>
+            <g stroke="var(--line)" strokeWidth=".4"><path d="M28 28H58V44H28Z M150 28H172V40H150Z M150 136H172V152H150Z M30 130H50V152H30Z M112 140V152H130V140Z"/></g>
             <path key={phase} d="M100 65V95 M65 90H85 M140 120V145" stroke={mark} strokeWidth={phase === 'approved' ? 4 : 2} strokeDasharray={phase === 'ready' ? '3 2' : undefined} pathLength={phase === 'processing' ? 1 : undefined} className={phase === 'processing' ? 'draw-line' : ''}/>
-            <g stroke="var(--muted-foreground)" strokeWidth=".6"><path d="M20 172H180 M20 168V176 M180 168V176"/><path d="M194 20V160 M190 20H198 M190 160H198"/></g>
-            <g fontFamily="var(--font-mono)" fontSize="6" fill="var(--muted-foreground)" stroke="none"><text x="92" y="182">16 000</text><text x="200" y="93" transform="rotate(90 200 93)">14 000</text><text x="24" y="30">A</text><text x="104" y="30">B</text><text x="24" y="100">C</text><text x="144" y="100">D</text></g>
-            {active && [[100, 65], [65, 90], [140, 120]].map(([x, y], k) => <g key={k} className="fade-in" style={{ animationDelay: `${k * 200}ms` }}><circle cx={x} cy={y} r="4" stroke={mark} strokeWidth=".8"/><text x={x! + 6} y={y! - 4} fontFamily="var(--font-mono)" fontSize="6" fill={mark} stroke="none">D-0{k + 1}</text></g>)}
+            <g stroke="var(--muted-foreground)" strokeWidth=".4"><path d="M20 172H180 M20 168V176 M100 169V175 M140 169V175 M180 168V176"/><path d="M20 180H180 M20 177V183 M180 177V183"/><path d="M194 20V160 M190 20H198 M190 90H198 M190 160H198"/></g>
+            <g fontFamily="var(--font-mono)" fontSize="6" fill="var(--muted-foreground)" stroke="none">
+              <text x="92" y="190">16 000</text><text x="200" y="93" transform="rotate(90 200 93)">14 000</text>
+              <g fontSize="3.6"><text x="55" y="170">8 000</text><text x="115" y="170">4 000</text><text x="155" y="170">4 000</text></g>
+              <text x="24" y="30" fill="var(--foreground)">A</text><text x="104" y="30" fill="var(--foreground)">B</text><text x="24" y="100" fill="var(--foreground)">C</text><text x="144" y="100" fill="var(--foreground)">D</text>
+              <g fontSize="3.4"><text x="44" y="62">STUDIO · 56 m²</text><text x="124" y="62">MEETING · 56 m²</text><text x="44" y="122">OFFICE · 56 m²</text><text x="108" y="132">STORE</text><text x="150" y="122">WC · 28 m²</text></g>
+            </g>
+            {active && [[100, 65], [65, 90], [140, 120]].map(([x, y], k) => <g key={k} className="fade-in" style={{ animationDelay: `${k * 200}ms` }}><circle cx={x} cy={y} r="4" stroke={mark} strokeWidth=".8"/><text x={x! + 6} y={y! - 4} fontFamily="var(--font-mono)" fontSize="6" fill={mark} stroke="none">D-0{k + 1}</text>{done && <text x={x! + 6} y={y! + 3} fontFamily="var(--font-mono)" fontSize="3.6" fill={mark} stroke="none">{isDoor ? '900 → 920' : 'FLAGGED'}</text>}</g>)}
           </g></svg>
       </div>
       <div className="grid border-t border-border sm:grid-cols-[1.2fr_1fr]" aria-live="polite">
