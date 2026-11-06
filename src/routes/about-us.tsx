@@ -38,17 +38,42 @@ function Draw({ on, d, delay = 0, w = 1.5, color = "var(--foreground)" }: { on: 
 
 function HeroDrawing() {
   return (
-    <svg viewBox="0 0 400 400" className="h-full w-full" fill="none" strokeLinejoin="round" role="img" aria-label="Line drawing of a building section with a flagged element">
+    <svg viewBox="0 0 400 400" className="h-full w-full" fill="none" strokeLinejoin="miter" strokeLinecap="square" role="img" aria-label="Architectural elevation of a contemporary building with a flagged door">
+      <defs>
+        <pattern id="about-hatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V4" stroke="var(--muted-foreground)" strokeWidth=".5" /></pattern>
+        <pattern id="about-clad" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 0V6" stroke="var(--muted-foreground)" strokeWidth=".4" /></pattern>
+      </defs>
       {Array.from({ length: 9 }, (_, i) => <line key={`v${i}`} x1={i * 50} y1="0" x2={i * 50} y2="400" stroke="var(--line)" />)}
       {Array.from({ length: 9 }, (_, i) => <line key={`h${i}`} x1="0" y1={i * 50} x2="400" y2={i * 50} stroke="var(--line)" />)}
-      <Draw on d="M60 340 V140 L200 70 L340 140 V340 Z" w={3} />
-      <Draw on d="M60 240 H340 M200 70 V340 M130 340 V270 H170 V340" delay={400} />
-      <Draw on d="M240 170 H300 V215 H240 Z M90 170 H150 V215 H90 Z" delay={700} />
-      <rect x="240" y="270" width="60" height="70" fill="var(--primary)" className="fade-in [animation-delay:1400ms]" />
-      <Draw on d="M300 270 L360 220 H392" delay={1600} w={1} color="var(--primary)" />
-      <text x="330" y="212" className="label" fill="var(--primary)" fontSize="10">DOOR D-14</text>
-      <Draw on d="M60 365 H340 M60 358 V372 M340 358 V372" delay={900} w={1} />
-      <text x="178" y="390" fontSize="9" fill="var(--muted-foreground)" fontFamily="var(--font-mono)">28 400 MM</text>
+      <g stroke="var(--muted-foreground)" strokeWidth=".5" strokeDasharray="6 3 1 3" opacity=".6"><path d="M40 330H392 M40 230H392 M40 144H392 M70 110V345 M120 110V345 M300 110V345 M350 110V345" /></g>
+      <rect x="300" y="230" width="50" height="10" fill="url(#about-hatch)" className="fade-in [animation-delay:1200ms]" />
+      <rect x="70" y="236" width="80" height="94" fill="url(#about-clad)" className="fade-in [animation-delay:1100ms]" />
+      <rect x="290" y="150" width="60" height="80" fill="url(#about-hatch)" opacity=".7" className="fade-in [animation-delay:1100ms]" />
+      <Draw on d="M20 330H380" w={2.2} />
+      <Draw on d="M70 330V230H300 M120 230V150H350V230H300 M116 150V144H354V150 M340 230V330 M346 230V330 M300 230V330" w={2} delay={200} />
+      <Draw on d="M70 236H300 M120 224H350 M140 165H280V218H140Z M290 150V230" w={1} delay={600} />
+      <Draw on d="M160 165V218 M180 165V218 M200 165V218 M220 165V218 M240 165V218 M260 165V218 M140 191H280" w={.6} delay={800} />
+      <Draw on d="M160 248H230V322H160Z M183 248V322 M206 248V322 M160 300H230 M150 236V330" w={.9} delay={900} />
+      <Draw on d="M228 330V334H282V330 M222 334V338H288V334" w={.8} delay={1000} />
+      <path d="M140 218L132 226 M280 218L272 226" stroke="var(--muted-foreground)" strokeWidth=".4" />
+      <g className="fade-in [animation-delay:1400ms]">
+        <rect x="241" y="262" width="30" height="68" fill="var(--primary)" fillOpacity=".1" stroke="var(--primary)" strokeWidth="1.6" />
+        <path d="M245 266H267V330 M265 296V300" stroke="var(--primary)" strokeWidth=".7" />
+        <path d="M241 262L271 296L241 330" stroke="var(--primary)" strokeWidth=".5" strokeDasharray="2 2" />
+        <path d="M241 254H271 M241 251V257 M271 251V257" stroke="var(--primary)" strokeWidth=".6" />
+        <text x="246" y="250" fontSize="6" fill="var(--primary)" fontFamily="var(--font-mono)">920</text>
+      </g>
+      <Draw on d="M271 278L362 200H392" delay={1600} w={.8} color="var(--primary)" />
+      <circle cx="271" cy="278" r="2" fill="var(--primary)" className="fade-in [animation-delay:1600ms]" />
+      <text x="330" y="194" className="label" fill="var(--primary)" fontSize="10">DOOR D-14</text>
+      <g fontFamily="var(--font-mono)" fontSize="6" fill="var(--muted-foreground)">
+        {[[330, "±0.000"], [230, "+3.200"], [144, "+6.400"]].map(([y, t]) => <g key={t as string}><path d={`M28 ${y}H48 M34 ${(y as number) - 5}L38 ${y}L42 ${(y as number) - 5}Z`} stroke="var(--muted-foreground)" strokeWidth=".5" /><text x="22" y={(y as number) - 7}>{t}</text></g>)}
+        <text x="146" y="160">GL-01 · TRIPLE GLAZED</text><text x="76" y="222">CLADDING</text><text x="296" y="138">CANTILEVER 5 000</text>
+      </g>
+      <Draw on d="M70 360H350 M70 353V367 M350 353V367 M120 356V364 M300 356V364" delay={900} w={.8} />
+      <Draw on d="M368 144V330 M362 144H374 M362 230H374 M362 330H374" delay={1000} w={.8} />
+      <text x="178" y="384" fontSize="9" fill="var(--muted-foreground)" fontFamily="var(--font-mono)">28 400 MM</text>
+      <text x="22" y="22" fontSize="6" fill="var(--muted-foreground)" fontFamily="var(--font-mono)">ELEVATION S-01 / 1:100</text>
     </svg>
   );
 }
