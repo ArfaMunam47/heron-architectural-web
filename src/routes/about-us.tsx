@@ -53,7 +53,7 @@ function ExplodedPlates({ on }: { on: boolean }) {
   const treads = (top: number) => Array.from({ length: 6 }, (_, i) => seg([7.3, 1.1 + i * 0.42], [9.1, 1.1 + i * 0.42], top)).join(" ");
   return (
     <g fill="none" strokeLinecap="square">
-      {[...levels].reverse().map((l) => { const i = levels.indexOf(l);
+      {levels.map((l, i) => {
         const d = i * 260;
         const slab = poly([[0, 0], [W, 0], [W, D], [0, D]], l.top);
         const edge = `M${iso(0, D, l.top)} L${iso(0, D, l.top + T)} L${iso(W, D, l.top + T)} L${iso(W, 0, l.top + T)} L${iso(W, 0, l.top)} M${iso(W, D, l.top)} L${iso(W, D, l.top + T)}`;
