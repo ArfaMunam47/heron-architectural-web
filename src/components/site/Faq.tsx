@@ -15,7 +15,7 @@ export const faqs: { q: string; a: string }[] = [
 ];
 
 export function FaqSection({ asPage = false }: { asPage?: boolean }) {
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState<number | null>(null);
   const H = asPage ? 'h1' : 'h2';
   return (
     <section id="faq" aria-labelledby="faq-title" className="scroll-mt-14 border-t border-border">
@@ -59,7 +59,7 @@ export function FaqSection({ asPage = false }: { asPage?: boolean }) {
               );
             })}
           </ul>
-          <div className="mt-6 flex justify-between font-mono text-[10px] uppercase text-muted-foreground"><span>{String((open ?? 0) + 1).padStart(2, '0')} — {String(faqs.length).padStart(2, '0')}</span><span>Placeholders marked [To confirm]</span></div>
+          <div className="mt-6 flex justify-between font-mono text-[10px] uppercase text-muted-foreground"><span>{open === null ? '—' : String(open + 1).padStart(2, '0')} — {String(faqs.length).padStart(2, '0')}</span><span>Placeholders marked [To confirm]</span></div>
         </div>
       </div>
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border px-6 py-5 md:px-8">

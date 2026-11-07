@@ -36,6 +36,55 @@ function Draw({ on, d, delay = 0, w = 1.5, color = "var(--foreground)" }: { on: 
   return <path d={d} pathLength={1} stroke={color} strokeWidth={w} fill="none" className={on ? "draw-line" : "opacity-0"} style={{ animationDelay: `${delay}ms` }} />;
 }
 
+// Isometric projection for the exploded study: plan units (x,y) on level z.
+const ISO = { ox: 300, k: 17, c: 0.866 };
+const iso = (x: number, y: number, top: number) => `${(ISO.ox + (x - y) * ISO.k * ISO.c).toFixed(1)} ${(top + (x + y) * ISO.k * 0.5).toFixed(1)}`;
+const poly = (pts: [number, number][], top: number, close = true) => "M" + pts.map(([x, y]) => iso(x, y, top)).join(" L") + (close ? " Z" : "");
+const seg = (a: [number, number], b: [number, number], top: number) => `M${iso(a[0], a[1], top)} L${iso(b[0], b[1], top)}`;
+
+function ExplodedPlates({ on }: { on: boolean }) {
+  const W = 11, D = 8, T = 6; // footprint and slab thickness
+  const levels = [{ top: 228, label: "L01  +0.000" }, { top: 128, label: "L02  +3.600" }, { top: 28, label: "L03  +7.200" }];
+  const core: [number, number][] = [[7, 0.8], [9.4, 0.8], [9.4, 3.6], [7, 3.6]];
+  const walls = (top: number) => [
+    seg([0.4, 4.6], [6.2, 4.6], top), seg([4.4, 0.4], [4.4, 4.6], top), seg([6.2, 4.6], [6.2, 7.6], top),
+    seg([7, 3.6], [7, 7.6], top), poly(core, top),
+  ].join(" ");
+  const treads = (top: number) => Array.from({ length: 6 }, (_, i) => seg([7.3, 1.1 + i * 0.42], [9.1, 1.1 + i * 0.42], top)).join(" ");
+  return (
+    <g fill="none" strokeLinecap="square">
+      {levels.map((l, i) => {
+        const d = i * 260;
+        const slab = poly([[0, 0], [W, 0], [W, D], [0, D]], l.top);
+        const edge = `M${iso(0, D, l.top)} L${iso(0, D, l.top + T)} L${iso(W, D, l.top + T)} L${iso(W, 0, l.top + T)} L${iso(W, 0, l.top)} M${iso(W, D, l.top)} L${iso(W, D, l.top + T)}`;
+        const flagged = i === 1;
+        return (
+          <g key={l.label}>
+            <path d={slab + " " + edge} fill="var(--background)" stroke="none" className={on ? "fade-in" : "opacity-0"} style={{ animationDelay: `${d}ms` }} />
+            <Draw on={on} d={slab} delay={d} w={1.6} />
+            <Draw on={on} d={edge} delay={d + 120} w={1} />
+            <Draw on={on} d={walls(l.top)} delay={d + 300} w={1.1} color={"var(--foreground)"} />
+            <Draw on={on} d={treads(l.top)} delay={d + 420} w={0.5} color="var(--muted-foreground)" />
+            {flagged && <Draw on={on} d={poly(core, l.top)} delay={1300} w={2.2} color="var(--primary)" />}
+            <text x={18} y={l.top + 72} fontFamily="var(--font-mono)" fontSize="9" fill="var(--muted-foreground)" letterSpacing=".08em">{l.label}</text>
+          </g>
+        );
+      })}
+      {/* vertical alignment of core and corners between levels */}
+      <Draw on={on} d={[[0, D], [W, D], [W, 0], [7, 3.6], [9.4, 0.8]].map(([x, y]) => `M${iso(x!, y!, 28 + T)} L${iso(x!, y!, 228)}`).join(" ")} delay={900} w={0.5} color="var(--muted-foreground)" />
+      {/* annotation to the flagged stair core */}
+      <Draw on={on} d={`M${iso(9.4, 0.8, 128)} L520 118 H588`} delay={1500} w={0.8} color="var(--primary)" />
+      <text x={588} y={110} textAnchor="end" fontFamily="var(--font-mono)" fontSize="9" fill="var(--primary)" letterSpacing=".08em" className={on ? "fade-in" : "opacity-0"} style={{ animationDelay: "1700ms" }}>CORE C-02 · 1 050 MIN</text>
+      {/* overall dimension */}
+      <g stroke="var(--muted-foreground)" strokeWidth=".5">
+        <path d={`M${iso(0, D + 1.2, 234)} L${iso(W, D + 1.2, 234)}`} />
+        <path d={`M${iso(0, D + 0.9, 234)} L${iso(0, D + 1.5, 234)} M${iso(W, D + 0.9, 234)} L${iso(W, D + 1.5, 234)}`} />
+      </g>
+      <text x={430} y={404} fontFamily="var(--font-mono)" fontSize="9" fill="var(--muted-foreground)">22 000</text>
+    </g>
+  );
+}
+
 function HeroDrawing() {
   return (
     <svg viewBox="0 0 400 400" className="h-full w-full" fill="none" strokeLinejoin="miter" strokeLinecap="square" role="img" aria-label="Architectural elevation of a contemporary building with a flagged door">
@@ -114,13 +163,7 @@ function Centerpiece() {
           <span className="label px-4 pt-3 text-right text-primary">Flag — stair core clearance</span>
           <div className="relative min-h-0">
           <svg viewBox="0 0 600 420" className="absolute inset-0 h-full w-full" strokeLinejoin="round" aria-hidden="true" data-sheet-wireframe>
-            {Array.from({ length: 13 }, (_, i) => <line key={i} x1={i * 50} y1="0" x2={i * 50} y2="420" stroke="var(--line)" />)}
-            <Draw on={on} d="M80 330 L300 220 L520 330 L300 400 Z" w={2} />
-            <Draw on={on} d="M80 250 L300 140 L520 250 L300 320 Z" delay={250} w={2} />
-            <Draw on={on} d="M80 170 L300 60 L520 170 L300 240 Z" delay={500} w={2} />
-            <Draw on={on} d="M80 170 V330 M300 240 V400 M520 170 V330 M300 60 V140" delay={800} w={1} />
-            <Draw on={on} d="M300 140 L360 110 L420 140 L360 170 Z" delay={1100} w={2} color="var(--primary)" />
-            <Draw on={on} d="M420 140 L560 80" delay={1300} w={1} color="var(--primary)" />
+            <ExplodedPlates on={on} />
           </svg>
           </div>
           <p style={{ "--editorial-size": "clamp(1.6rem,3.2vw,3rem)" } as React.CSSProperties} className="display border-t border-border bg-background p-4 text-[clamp(1.6rem,3.2vw,3rem)]" data-sheet-headline>Every floor,<br />checked.</p>
