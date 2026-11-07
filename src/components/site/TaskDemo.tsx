@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowRight, RotateCcw, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { WindowDetail } from './WindowDetail';
 
 const sampleTasks = ['Resize flagged doors to 920 mm', 'Rename rooms using the project convention', 'Review duplicate wall types'];
 export function TaskDemo() {
@@ -31,7 +32,8 @@ export function TaskDemo() {
       <div className="flex items-center justify-between border-b border-border px-6 py-3 md:px-8"><span className="label">Heron / Sample model</span><span className="label flex items-center gap-2 text-primary"><span className={`size-1.5 bg-primary ${phase === 'processing' ? 'animate-pulse' : ''}`} />{status}</span></div>
       <div className="relative flex flex-1 items-center justify-center bg-muted/30 px-6 py-10 md:px-10">
         <span className="absolute left-6 top-4 font-mono text-[9px] uppercase text-muted-foreground md:left-8">Plan / Level 02</span><span className="absolute right-6 top-4 font-mono text-[9px] uppercase text-muted-foreground md:right-8">Model study / Not to scale</span>
-        <svg viewBox="0 0 240 200" className="w-full max-w-[480px]" fill="none" stroke="var(--foreground)" strokeLinecap="square" role="img" aria-label="Sample floor plan, level 02">
+        <div className="relative w-full max-w-[480px]">
+        <svg viewBox="0 0 240 200" className="w-full" fill="none" stroke="var(--foreground)" strokeLinecap="square" role="img" aria-label="Sample floor plan, level 02">
           <g transform="translate(20 10)">
             <path d="M17 17H183V163H17Z M21 21V159H179V21Z" fill="var(--foreground)" fillRule="evenodd" stroke="none"/>
             <g fill="var(--background)" stroke="none"><path d="M44 16.5H60V21.5H44Z M120 16.5H150V21.5H120Z M178.5 50H183.5V64H178.5Z M16.5 120H21.5V136H16.5Z"/></g>
@@ -48,6 +50,8 @@ export function TaskDemo() {
             </g>
             {active && [[100, 80, 104, 78], [75, 90, 44, 81], [140, 132, 144, 131]].map(([x, y, tx, ty], k) => <g key={k} className="fade-in" style={{ animationDelay: `${k * 200}ms` }}><text x={tx} y={ty} fontFamily="var(--font-mono)" fontSize="4.4" fill={mark} stroke="none">D-0{k + 1}</text>{done && <text x={tx} y={ty! + 5} fontFamily="var(--font-mono)" fontSize="3.4" fill={mark} stroke="none">{isDoor ? '900 → 920' : 'FLAGGED'}</text>}</g>)}
           </g></svg>
+          <WindowDetail />
+        </div>
       </div>
       <div className="grid border-t border-border sm:grid-cols-[1.2fr_1fr]" aria-live="polite">
         <div className="p-6 md:px-8">{phase === 'ready' ? <><span className="label text-muted-foreground">Proposal</span><p className="mt-3 text-sm text-muted-foreground">A proposed change will appear here.</p></> : phase === 'processing' ? <><span className="label">Checking model… {progress}%</span><div className="mt-4 h-px w-full bg-border"><div className="h-px bg-primary transition-[width] duration-150" style={{ width: `${progress}%` }} /></div><p className="mt-4 text-xs text-muted-foreground">Inspecting elements and preparing a comparison.</p></> : <><span className="label text-primary">{phase === 'approved' ? 'Sample change approved' : 'Proposed changes'}</span><p className="mt-3 text-sm font-medium">{task}</p>{isDoor && <div className="mt-4 flex items-end gap-4 fade-in"><div><span className="label text-muted-foreground">Before</span><p className="display text-3xl text-muted-foreground"><span className="line-through decoration-1">900</span><span className="ml-1 font-mono text-[10px] font-normal">mm</span></p></div><span className="pb-2 font-mono text-primary">→</span><div><span className="label text-primary">Proposed</span><p className="display text-3xl text-primary">920<span className="ml-1 font-mono text-[10px] font-normal">mm</span></p></div></div>}</>}</div>

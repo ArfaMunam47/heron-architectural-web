@@ -15,3 +15,4 @@
 - Mount the shared footer once in the root layout so all content pages have consistent navigation.
 - Keep the decorative pointer follower isolated from native input and model-selection pointers, and idle its animation when stationary, to preserve precision and avoid unnecessary motion.
 - Keep the homepage construction grid, traced elevation and rendered building in one shared SVG image coordinate system; reveal the render only after the line drawing so both stages stay aligned at every viewport size.
+- Keep window-detail state and SVG animation isolated in WindowDetail, overlaying the existing plan viewport so it cannot alter model geometry, task state or surrounding layout.
