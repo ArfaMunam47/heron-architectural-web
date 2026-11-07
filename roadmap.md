@@ -14,3 +14,5 @@
 - [x] Redesign About page, refine award badge, Discover More hover, logo marquee, back-to-dashboard link.
 - [x] Match the reference opening: draw aligned construction lines, then reveal the finished building; preserve all other content.
 - [x] Make navigation respond on first click and rebalance homepage section hierarchy and spacing.
+- [ ] Add the isolated click-to-reveal window detail without changing the floor plan or task workflow.
+- [ ] Verify window reveal, return, repetition, reduced motion and desktop/phone presentation.
