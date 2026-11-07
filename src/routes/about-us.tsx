@@ -53,13 +53,14 @@ function ExplodedPlates({ on }: { on: boolean }) {
   const treads = (top: number) => Array.from({ length: 6 }, (_, i) => seg([7.3, 1.1 + i * 0.42], [9.1, 1.1 + i * 0.42], top)).join(" ");
   return (
     <g fill="none" strokeLinecap="square">
-      {levels.map((l, i) => {
+      {[...levels].reverse().map((l) => { const i = levels.indexOf(l);
         const d = i * 260;
         const slab = poly([[0, 0], [W, 0], [W, D], [0, D]], l.top);
         const edge = `M${iso(0, D, l.top)} L${iso(0, D, l.top + T)} L${iso(W, D, l.top + T)} L${iso(W, 0, l.top + T)} L${iso(W, 0, l.top)} M${iso(W, D, l.top)} L${iso(W, D, l.top + T)}`;
         const flagged = i === 1;
         return (
           <g key={l.label}>
+            <path d={slab + " " + edge} fill="var(--background)" stroke="none" className={on ? "fade-in" : "opacity-0"} style={{ animationDelay: `${d}ms` }} />
             <Draw on={on} d={slab} delay={d} w={1.6} />
             <Draw on={on} d={edge} delay={d + 120} w={1} />
             <Draw on={on} d={walls(l.top)} delay={d + 300} w={1.1} color={"var(--foreground)"} />

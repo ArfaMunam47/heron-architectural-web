@@ -46,7 +46,7 @@ export function TaskDemo() {
               <g fontSize="3.2"><text x="28" y="40">56 m²</text><text x="108" y="40">56 m²</text><text x="28" y="110">56 m²</text></g>
               <g transform="translate(168 30)" fill="var(--foreground)"><path d="M0 -6L2.5 2H-2.5Z" /><text x="-1.4" y="8" fontSize="4">N</text></g>
             </g>
-            {active && [[100, 80, 104, 78], [75, 90, 70, 84], [140, 132, 144, 131]].map(([x, y, tx, ty], k) => <g key={k} className="fade-in" style={{ animationDelay: `${k * 200}ms` }}><text x={tx} y={ty} fontFamily="var(--font-mono)" fontSize="4.4" fill={mark} stroke="none">D-0{k + 1}</text>{done && <text x={tx} y={ty! + 5} fontFamily="var(--font-mono)" fontSize="3.4" fill={mark} stroke="none">{isDoor ? '900 → 920' : 'FLAGGED'}</text>}</g>)}
+            {active && [[100, 80, 104, 78], [75, 90, 44, 81], [140, 132, 144, 131]].map(([x, y, tx, ty], k) => <g key={k} className="fade-in" style={{ animationDelay: `${k * 200}ms` }}><text x={tx} y={ty} fontFamily="var(--font-mono)" fontSize="4.4" fill={mark} stroke="none">D-0{k + 1}</text>{done && <text x={tx} y={ty! + 5} fontFamily="var(--font-mono)" fontSize="3.4" fill={mark} stroke="none">{isDoor ? '900 → 920' : 'FLAGGED'}</text>}</g>)}
           </g></svg>
       </div>
       <div className="grid border-t border-border sm:grid-cols-[1.2fr_1fr]" aria-live="polite">
