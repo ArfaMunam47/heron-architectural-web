@@ -26,7 +26,7 @@ export function WindowDetail() {
 
   return <div className="pointer-events-none absolute inset-0" data-window-phase={phase} onKeyDown={e => { if (e.key === 'Escape' && open) { e.stopPropagation(); close(); } }}>
     {!open && <>
-      <Button ref={trigger} variant="ghost" aria-label="Explore window detail" aria-expanded={false} aria-controls={id} onClick={() => setPhase('revealing')} className="window-plan-target pointer-events-auto absolute min-h-11 min-w-11 border-0 p-0 text-primary hover:bg-primary/10" title="Explore window detail"><span className="window-plan-marker" /></Button>
+      <Button ref={trigger} variant="ghost" aria-label="Explore north-wall window" aria-expanded={false} aria-controls={id} onClick={() => setPhase('revealing')} className="window-plan-target pointer-events-auto absolute min-h-11 min-w-11 border-0 p-0 text-primary hover:bg-primary/10" title="Explore window detail"><span className="window-plan-marker" /></Button>
       <Button variant="link" onClick={() => setPhase('revealing')} aria-expanded={false} aria-controls={id} className="pointer-events-auto absolute bottom-0 left-0 h-8 gap-1 px-0 font-mono text-[8px] uppercase sm:text-[9px]">Explore window detail <ArrowUpRight className="size-3" /></Button>
     </>}
     {open && <div id={id} role="region" aria-label="Architectural window detail" className="window-detail-sheet pointer-events-auto absolute inset-0 bg-background" data-revealed={phase === 'detail'}>
