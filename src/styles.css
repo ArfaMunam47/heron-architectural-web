@@ -187,24 +187,42 @@
 }
 .cursor-follower-mark {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  border: 1px solid var(--primary);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
   background: var(--primary);
+  box-shadow: 0 0 0 1px var(--background);
   transform: translate(-50%, -50%);
-  transition: width 160ms ease, height 160ms ease, background-color 160ms ease;
+  transition: transform 140ms ease;
 }
-.cursor-follower[data-active="true"] .cursor-follower-mark {
-  width: 18px;
-  height: 18px;
-  background: transparent;
+.cursor-follower-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+.cursor-follower-ring-outline {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--background);
+  opacity: .55;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+.cursor-follower[data-active="true"] .cursor-follower-ring-outline {
+  transform: translate(-50%, -50%) scale(1.4);
+  opacity: .8;
+}
+.cursor-follower[data-pressed="true"] .cursor-follower-ring-outline {
+  transform: translate(-50%, -50%) scale(.85);
 }
 .cursor-follower[data-pressed="true"] .cursor-follower-mark {
-  width: 6px;
-  height: 6px;
-  background: var(--primary);
+  transform: translate(-50%, -50%) scale(.8);
 }
-@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+@media (max-width: 767px), (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
   .cursor-follower { display: none; }
 }
 
