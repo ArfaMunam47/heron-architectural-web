@@ -213,7 +213,7 @@
 }
 
 /* Confined to the north-wall window; the plan keeps its original geometry. */
-.window-plan-target { left: 64.1%; top: 14.5%; width: 14%; height: 10%; transform: translateY(-50%); }
+.window-plan-target { left: 58.333%; top: 14.5%; width: 12.5%; height: 10%; transform: translateY(-50%); }
 .window-plan-marker { position: absolute; inset: calc(50% - 4px) 2px; border: 1px solid var(--primary); }
 .window-detail-sheet { animation: window-sheet-in 240ms ease both; }
 .window-source-outline { animation: window-outline 650ms ease both; }
