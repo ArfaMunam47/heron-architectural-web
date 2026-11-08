@@ -1,0 +1,6 @@
+{
+  "name": "Heron Architectural Web Experience",
+  "description": "An architectural editorial web experience featuring precision layouts, interactive drafting stages, and technical design showcases.",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

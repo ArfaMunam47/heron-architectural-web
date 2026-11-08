@@ -26,6 +26,12 @@ const details = [
   "M0 690 H1536",
 ];
 
+// Preload the architectural render immediately on module load
+if (typeof window !== "undefined") {
+  const preloadImg = new window.Image();
+  preloadImg.src = house;
+}
+
 export function HeroStage() {
   const [phase, setPhase] = useState<"draw" | "reveal" | "done">("draw");
   const [pct, setPct] = useState(0);
@@ -35,29 +41,50 @@ export function HeroStage() {
   const box = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    try {
-      if (sessionStorage.getItem("heron-intro")) { setPhase("done"); setPct(100); return; }
-    } catch { /* The intro still works when browser storage is unavailable. */ }
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setPhase('done'); setPct(100); return; }
+    const img = new Image();
+    img.src = house;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setPhase("done");
+      setPct(100);
+      return;
+    }
+
+    const LINE_DRAW_DURATION = 1100;
+    const PROGRESS_DURATION = 1800;
+    const SETTLE_DURATION = 300;
+
     const t0 = performance.now();
     let raf = 0;
     const tick = (t: number) => {
       const elapsed = t - t0;
-      const p = Math.min(100, (elapsed / 4400) * 100);
-      if (elapsed >= 2600 && p < 100) setPhase("reveal");
-      setPct(Math.round(p));
-      if (p < 100) raf = requestAnimationFrame(tick);
-      else {
+      if (elapsed < LINE_DRAW_DURATION) {
+        // Step 1: Architectural lines progressively construct the building
+        setPhase("draw");
+        setPct(0);
+      } else if (elapsed < LINE_DRAW_DURATION + PROGRESS_DURATION) {
+        // Step 2: Line construction completes -> IMMEDIATELY trigger 0-100% progress animation with ZERO waiting
+        setPhase("reveal");
+        const progressRatio = (elapsed - LINE_DRAW_DURATION) / PROGRESS_DURATION;
+        setPct(Math.min(100, Math.round(progressRatio * 100)));
+      } else {
+        // Step 3: Complete reveal settles smoothly into stable finished state
+        setPhase(
+          elapsed >= LINE_DRAW_DURATION + PROGRESS_DURATION + SETTLE_DURATION ? "done" : "reveal",
+        );
+        setPct(100);
+      }
+
+      if (elapsed < LINE_DRAW_DURATION + PROGRESS_DURATION + SETTLE_DURATION) {
+        raf = requestAnimationFrame(tick);
+      } else {
         setPhase("done");
-        try { sessionStorage.setItem("heron-intro", "1"); } catch { /* Optional intro preference. */ }
+        setPct(100);
       }
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
-
-  // The same traveling line hands each band from drawing to built render.
-  const rv = Math.max(0, Math.min(100, ((pct - 59) / 41) * 100));
 
   const pos = (e: React.MouseEvent) => {
     const r = box.current?.getBoundingClientRect();
@@ -72,39 +99,140 @@ export function HeroStage() {
       data-cursor="native"
       className="relative h-[calc(100svh-14rem)] min-h-[260px] md:h-[calc(100svh-10rem)] md:min-h-[360px] cursor-crosshair select-none overflow-hidden"
       onMouseMove={(e) => {
-        const p = pos(e); setM(p);
-        if (start.current) setDrag({ x: Math.min(p.x, start.current.x), y: Math.min(p.y, start.current.y), w: Math.abs(p.x - start.current.x), h: Math.abs(p.y - start.current.y) });
+        if (phase !== "done") return;
+        const p = pos(e);
+        setM(p);
+        if (start.current)
+          setDrag({
+            x: Math.min(p.x, start.current.x),
+            y: Math.min(p.y, start.current.y),
+            w: Math.abs(p.x - start.current.x),
+            h: Math.abs(p.y - start.current.y),
+          });
       }}
-      onMouseLeave={() => { setM(null); start.current = null; setDrag(null); }}
-      onMouseDown={(e) => { start.current = pos(e); setDrag(null); }}
-      onMouseUp={() => { start.current = null; setTimeout(() => setDrag(null), 1400); }}
+      onMouseLeave={() => {
+        setM(null);
+        start.current = null;
+        setDrag(null);
+      }}
+      onMouseDown={(e) => {
+        start.current = pos(e);
+        setDrag(null);
+      }}
+      onMouseUp={() => {
+        start.current = null;
+        setTimeout(() => setDrag(null), 1400);
+      }}
     >
       <Corners />
       <div className="absolute inset-x-[10%] inset-y-[8%] flex items-center justify-center">
-        <svg viewBox="0 0 1536 768" className="h-full w-full" fill="none" stroke="var(--foreground)" strokeWidth="2" strokeLinejoin="miter" strokeLinecap="square" role="img" aria-label="Construction lines resolve into a finished monochrome architectural building" data-hero-drawing data-complete={phase === "done"}>
-          <g className="hero-construction-layer" style={phase === "reveal" ? { clipPath: `inset(0 0 ${rv}% 0)` } : undefined}>
-          <g stroke="var(--line)" strokeWidth="1" className="hero-draft-grid">
-            {Array.from({ length: 17 }, (_, i) => <path key={`v${i}`} d={`M${i * 100} 0 V800`} />)}
-            {Array.from({ length: 9 }, (_, i) => <path key={`h${i}`} d={`M0 ${i * 100} H1600`} />)}
+        <svg
+          viewBox="0 0 1536 768"
+          className="h-full w-full"
+          fill="none"
+          stroke="var(--foreground)"
+          strokeWidth="2"
+          strokeLinejoin="miter"
+          strokeLinecap="square"
+          role="img"
+          aria-label="Construction lines resolve into a finished monochrome architectural building"
+          data-hero-drawing
+          data-phase={phase}
+          data-complete={phase === "done"}
+        >
+          <g
+            className="hero-construction-layer"
+            style={
+              phase === "reveal"
+                ? { clipPath: `inset(0 0 ${pct}% 0)` }
+                : phase === "done"
+                  ? { opacity: 0 }
+                  : { opacity: 1 }
+            }
+          >
+            <g stroke="var(--line)" strokeWidth="1" className="hero-draft-grid">
+              {Array.from({ length: 17 }, (_, i) => (
+                <path key={`v${i}`} d={`M${i * 100} 0 V800`} />
+              ))}
+              {Array.from({ length: 9 }, (_, i) => (
+                <path key={`h${i}`} d={`M0 ${i * 100} H1600`} />
+              ))}
+            </g>
+            <g stroke="var(--border)" strokeWidth="1">
+              {construction.map((d, i) => (
+                <path
+                  key={d}
+                  d={d}
+                  pathLength={1}
+                  className="hero-draft-edge"
+                  style={{ animationDelay: `${50 + i * 50}ms` }}
+                />
+              ))}
+            </g>
+            <g strokeWidth="1.6">
+              {structure.map((d, i) => (
+                <path
+                  key={d}
+                  d={d}
+                  pathLength={1}
+                  className="hero-draft-edge"
+                  style={{ animationDelay: `${120 + i * 40}ms` }}
+                />
+              ))}
+            </g>
+            <g strokeWidth="1" stroke="color-mix(in oklab, var(--foreground) 70%, transparent)">
+              {details.map((d, i) => (
+                <path
+                  key={d}
+                  d={d}
+                  pathLength={1}
+                  className="hero-draft-edge"
+                  style={{ animationDelay: `${250 + i * 50}ms` }}
+                />
+              ))}
+            </g>
           </g>
-          <g stroke="var(--border)" strokeWidth="1">
-            {construction.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${250 + i * 140}ms` }} />)}
-          </g>
-          <g strokeWidth="1.6">
-            {structure.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${650 + i * 100}ms` }} />)}
-          </g>
-          <g strokeWidth="1" stroke="color-mix(in oklab, var(--foreground) 70%, transparent)">
-            {details.map((d, i) => <path key={d} d={d} pathLength={1} className="hero-draft-edge" style={{ animationDelay: `${1200 + i * 50}ms` }} />)}
-          </g>
-          </g>
-          <image href={house} x="0" y="0" width="1536" height="768" className="hero-building-render" style={phase === "reveal" ? { clipPath: `inset(${100 - rv}% 0 0 0)`, opacity: 1 } : undefined} />
-          {phase === "reveal" && <path d={`M0 ${768 - rv * 7.68} H1536`} stroke="var(--primary)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />}
-          {phase === "done" && <g fill="var(--primary)" stroke="none" className="fade-in"><rect x="616" y="520" width="8" height="8" /><rect x="1076" y="536" width="8" height="8" /></g>}
+          {phase !== "draw" && (
+            <image
+              href={house}
+              x="0"
+              y="0"
+              width="1536"
+              height="768"
+              className="hero-building-render"
+              style={
+                phase === "reveal"
+                  ? { clipPath: `inset(${100 - pct}% 0 0 0)` }
+                  : { clipPath: "inset(0)" }
+              }
+            />
+          )}
+          {phase === "reveal" && pct < 100 && (
+            <path
+              d={`M0 ${768 - (pct / 100) * 768} H1536`}
+              stroke="var(--primary)"
+              strokeWidth="1.5"
+              vectorEffect="non-scaling-stroke"
+            />
+          )}
+          {phase === "done" && (
+            <g fill="var(--primary)" stroke="none" className="fade-in">
+              <rect x="616" y="520" width="8" height="8" />
+              <rect x="1076" y="536" width="8" height="8" />
+            </g>
+          )}
         </svg>
       </div>
 
-      {phase === "draw" && (
-        <div className="pointer-events-none absolute inset-x-0 h-px bg-primary" style={{ top: `${100 - pct * 1.45}%` }}>
+      {phase === "reveal" && (
+        <div
+          className="pointer-events-none absolute inset-x-0 h-px bg-primary"
+          style={{
+            top: `${92 - (pct / 100) * 84}%`,
+            opacity: pct >= 98 ? Math.max(0, (100 - pct) / 2) : 1,
+            transition: "opacity 100ms ease",
+          }}
+        >
           <span className="absolute -top-4 left-4 label text-primary">{pct}%</span>
         </div>
       )}
@@ -113,14 +241,31 @@ export function HeroStage() {
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-x-0 h-px bg-line" style={{ top: m.y }} />
           <div className="absolute inset-y-0 w-px bg-line" style={{ left: m.x }} />
-          <div className="absolute flex items-start gap-1" style={{ left: Math.min(m.x + 6, (box.current?.clientWidth ?? 200) - 180), top: Math.min(m.y + 6, (box.current?.clientHeight ?? 100) - 40) }}>
-            <span className="font-mono text-[8px] leading-tight text-muted-foreground">X:{Math.round(m.x)}PX<br />Y:{Math.round(m.y)}PX</span>
-            {!drag && <span className="bg-ink px-1.5 py-1 font-mono text-[8px] uppercase leading-tight text-ink-foreground">Model study / Selection</span>}
+          <div
+            className="absolute flex items-start gap-1"
+            style={{
+              left: Math.min(m.x + 6, (box.current?.clientWidth ?? 200) - 180),
+              top: Math.min(m.y + 6, (box.current?.clientHeight ?? 100) - 40),
+            }}
+          >
+            <span className="font-mono text-[8px] leading-tight text-muted-foreground">
+              X:{Math.round(m.x)}PX
+              <br />
+              Y:{Math.round(m.y)}PX
+            </span>
+            {!drag && (
+              <span className="bg-ink px-1.5 py-1 font-mono text-[8px] uppercase leading-tight text-ink-foreground">
+                Model study / Selection
+              </span>
+            )}
           </div>
         </div>
       )}
       {drag && drag.w > 8 && (
-        <div className="pointer-events-none absolute border border-primary bg-primary/10" style={{ left: drag.x, top: drag.y, width: drag.w, height: drag.h }}>
+        <div
+          className="pointer-events-none absolute border border-primary bg-primary/10"
+          style={{ left: drag.x, top: drag.y, width: drag.w, height: drag.h }}
+        >
           <span className="absolute -top-4 left-0 bg-primary px-1 font-mono text-[8px] uppercase text-primary-foreground">
             {Math.max(1, Math.round((drag.w * drag.h) / 9000))} sample flags
           </span>

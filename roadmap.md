@@ -1,4 +1,5 @@
 # Heron completion
+
 - [x] Separate Sheet 04 headline from the architectural wireframe.
 - [x] Draw the homepage building directly within the architectural grid.
 - [x] Refine four navigation hover cells and verify dropdowns and layouts.

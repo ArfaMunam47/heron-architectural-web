@@ -11,9 +11,16 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { title: "Heron AI — An AI agent that works inside your design tools" },
-      { name: "description", content: "Heron reviews your model, identifies issues and proposes solutions. Upon approval, it edits automatically." },
+      {
+        name: "description",
+        content:
+          "Heron reviews your model, identifies issues and proposes solutions. Upon approval, it edits automatically.",
+      },
       { property: "og:title", content: "Heron AI — An AI agent inside your design tools" },
-      { property: "og:description", content: "Heron reviews your model, identifies issues and edits automatically on approval." },
+      {
+        property: "og:description",
+        content: "Heron reviews your model, identifies issues and edits automatically on approval.",
+      },
     ],
   }),
   component: Index,
@@ -32,28 +39,73 @@ function Index() {
           </h1>
           <div className="flex flex-col border-t border-border md:border-l md:border-t-0">
             <p className="flex-1 p-6 text-[13px] leading-relaxed md:pt-7 fade-in [animation-delay:400ms]">
-              Heron reviews your model, identifies issues, and proposes solutions. Upon approval, it edits automatically. This concept crafted by <a className="font-semibold underline" href="https://bearplus.com" target="_blank" rel="noreferrer">Bearplus agency</a>, the award-winning design agency.
+              Heron reviews your model, identifies issues, and proposes solutions. Upon approval, it
+              edits automatically. This concept crafted by{" "}
+              <a
+                className="font-semibold underline"
+                href="https://bearplus.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Bearplus agency
+              </a>
+              , the award-winning design agency.
             </p>
           </div>
-          <div className="border-l border-border"><DiscoverMore to="/about-us" /></div>
+          <div className="border-l border-border">
+            <DiscoverMore to="/about-us" />
+          </div>
         </section>
         <Ticker />
 
         <section className="grid border-t border-border md:grid-cols-2">
           <div className="flex flex-col justify-end p-6 md:p-8">
-            <h2 className="display text-[clamp(1.8rem,3vw,2.8rem)]">Designed<br />by Bearplus,<br />the award-winning<br />design agency</h2>
+            <h2 className="display text-[clamp(1.8rem,3vw,2.8rem)]">
+              Designed
+              <br />
+              by Bearplus,
+              <br />
+              the award-winning
+              <br />
+              design agency
+            </h2>
           </div>
           <div className="grid grid-cols-2 gap-6 border-t border-border p-6 font-mono md:border-l md:border-t-0 md:p-8 text-[9px] uppercase leading-relaxed text-muted-foreground">
             <dl className="space-y-1">
               <div className="text-foreground">Welcome to Heron AI</div>
-              <div className="grid grid-cols-[64px_1fr]"><dt>Type</dt><dd>: Technology/AI software company</dd></div>
-              <div className="grid grid-cols-[64px_1fr]"><dt>Founded</dt><dd>: 2026</dd></div>
-              <div className="grid grid-cols-[64px_1fr]"><dt>Focus</dt><dd>: AI-powered building code compliance for architects (BIM / Revit integration)</dd></div>
-              <div className="grid grid-cols-[64px_1fr]"><dt>Location</dt><dd>: 1601 California St. Suite 2400, Denver, CO 80202</dd></div>
+              <div className="grid grid-cols-[64px_1fr]">
+                <dt>Type</dt>
+                <dd>: Technology/AI software company</dd>
+              </div>
+              <div className="grid grid-cols-[64px_1fr]">
+                <dt>Founded</dt>
+                <dd>: 2026</dd>
+              </div>
+              <div className="grid grid-cols-[64px_1fr]">
+                <dt>Focus</dt>
+                <dd>
+                  : AI-powered building code compliance for architects (BIM / Revit integration)
+                </dd>
+              </div>
+              <div className="grid grid-cols-[64px_1fr]">
+                <dt>Location</dt>
+                <dd>: 1601 California St. Suite 2400, Denver, CO 80202</dd>
+              </div>
             </dl>
             <ol className="space-y-0.5">
-              {["Initialize core system", "Load AI models", "Configure data pipelines", "Sync distributed nodes", "Validate input streams", "Optimize inference engine", "Deploy test environment", "Enable real-time processing"].map((s, i) => (
-                <li key={s} className="fade-in" style={{ animationDelay: `${i * 140}ms` }}>{String(i + 1).padStart(3, "0")} {s}</li>
+              {[
+                "Initialize core system",
+                "Load AI models",
+                "Configure data pipelines",
+                "Sync distributed nodes",
+                "Validate input streams",
+                "Optimize inference engine",
+                "Deploy test environment",
+                "Enable real-time processing",
+              ].map((s, i) => (
+                <li key={s} className="fade-in" style={{ animationDelay: `${i * 140}ms` }}>
+                  {String(i + 1).padStart(3, "0")} {s}
+                </li>
               ))}
             </ol>
           </div>

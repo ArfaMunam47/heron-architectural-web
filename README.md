@@ -20,7 +20,7 @@ What happens when you take an award-winning digital experience and challenge you
 
 This is more than an attempt to reproduce a beautiful interface. It is an opportunity to study the decisions behind exceptional UI design, experiment with creative implementation techniques, and push my frontend skills beyond conventional layouts.
 
-> *Good design catches your attention. Great interaction makes you remember it.*
+> _Good design catches your attention. Great interaction makes you remember it._
 
 ## 🎯 Why I Am Building This
 
@@ -44,14 +44,14 @@ Through this project, I am working to:
 
 The experience takes cues from architectural publications, technical drawings, and carefully art-directed digital studios.
 
-| Element | Design approach |
-| --- | --- |
-| 🎨 Visual identity | Warm ivory, near-black, and vermilion accents |
-| 📐 Layout | Precision grids, fine borders, and asymmetric compositions |
-| 🔠 Typography | Bold editorial headlines and compact technical labels |
-| 🏛️ Imagery | Architectural illustrations and monochrome visuals |
-| 🎬 Motion | Restrained reveals, transitions, and interactive details |
-| 🖱️ Interaction | Intentional hover states and responsive interface feedback |
+| Element            | Design approach                                            |
+| ------------------ | ---------------------------------------------------------- |
+| 🎨 Visual identity | Warm ivory, near-black, and vermilion accents              |
+| 📐 Layout          | Precision grids, fine borders, and asymmetric compositions |
+| 🔠 Typography      | Bold editorial headlines and compact technical labels      |
+| 🏛️ Imagery         | Architectural illustrations and monochrome visuals         |
+| 🎬 Motion          | Restrained reveals, transitions, and interactive details   |
+| 🖱️ Interaction     | Intentional hover states and responsive interface feedback |
 
 Every detail is an opportunity to understand why a design works, how it is constructed, and how it can be translated into a functional frontend.
 

@@ -1,38 +1,279 @@
-import { Link } from '@tanstack/react-router';
-import { Button } from '@/components/ui/button';
-import { ArrowUpRight } from 'lucide-react';
-import tower from '@/assets/tower.jpg';
-import workflow from '@/assets/art-workflow.jpg';
-import { articles } from '@/lib/articles';
-import { TaskDemo } from './TaskDemo';
-import { FaqSection } from './Faq';
+import { Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
+import tower from "@/assets/tower.jpg";
+import workflow from "@/assets/art-workflow.jpg";
+import { articles } from "@/lib/articles";
+import { TaskDemo } from "./TaskDemo";
+import { FaqSection } from "./Faq";
 
 export function Workflow() {
   const stages = [
-    { n: '01', t: 'Describe the task', l: 'Request / Level 02', note: 'You write the instruction in plain language.' },
-    { n: '02', t: 'Let the agent work', l: 'Inspect / Compare', note: 'Heron checks the model and prepares a proposal.' },
-    { n: '03', t: 'Review the result', l: 'Review / Approve', note: 'Nothing changes until you approve it.' },
+    {
+      n: "01",
+      t: "Describe the task",
+      l: "Request / Level 02",
+      note: "You write the instruction in plain language.",
+    },
+    {
+      n: "02",
+      t: "Let the agent work",
+      l: "Inspect / Compare",
+      note: "Heron checks the model and prepares a proposal.",
+    },
+    {
+      n: "03",
+      t: "Review the result",
+      l: "Review / Approve",
+      note: "Nothing changes until you approve it.",
+    },
   ];
   const panels = [
-    <div key="1" className="border-l-2 border-primary bg-muted/40 p-4"><span className="label text-muted-foreground">You → Heron</span><p className="mt-3 text-[15px] font-medium leading-snug">“Flag narrow doors on level 02.”</p><p className="mt-4 font-mono text-[9px] uppercase text-muted-foreground">Scope: Level 02 · Sample model</p></div>,
-    <ol key="2" className="border border-border font-mono text-[10px] uppercase">{[['Inspect level 02', 'Done'], ['Compare door widths', 'Done'], ['3 elements found', 'Flagged'], ['Prepare proposed changes', 'Ready']].map(([a, b], i) => <li key={a} className="flex items-center justify-between gap-3 border-b border-border px-3 py-2 last:border-b-0"><span><span className="text-muted-foreground">{String(i + 1).padStart(2, '0')}</span> {a}</span><span className={i === 3 ? 'text-primary' : 'text-muted-foreground'}>{b}</span></li>)}</ol>,
-    <div key="3" className="border border-border"><div className="grid grid-cols-2">{[['Before', '900', false], ['Proposed', '920', true]].map(([k, v, on]) => <div key={k as string} className={`p-3 ${on ? 'border-l border-border' : ''}`}><span className={`label ${on ? 'text-primary' : 'text-muted-foreground'}`}>{k}</span><svg viewBox="0 0 80 40" className="mt-2 w-full" fill="none" aria-hidden><path d="M4 34H24 M56 34H76" stroke="var(--foreground)" strokeWidth="1.5"/><path d={on ? 'M24 34A30 30 0 0 1 54 4' : 'M24 34A28 28 0 0 1 52 6'} stroke="var(--border)"/><path d={on ? 'M24 34V4' : 'M24 34V6'} stroke={on ? 'var(--primary)' : 'var(--foreground)'} strokeWidth="1.5"/></svg><p className={`display mt-1 text-2xl ${on ? 'text-primary' : ''}`}>{v as string}<span className="ml-1 font-mono text-[10px] font-normal">mm</span></p></div>)}</div><div className="flex items-center justify-between border-t border-border px-3 py-2"><span className="label text-muted-foreground">3 sample elements</span><span className="label flex items-center gap-1.5 text-primary"><span className="size-1.5 bg-primary" />Awaiting approval</span></div></div>,
+    <div key="1" className="border-l-2 border-primary bg-muted/40 p-4">
+      <span className="label text-muted-foreground">You → Heron</span>
+      <p className="mt-3 text-[15px] font-medium leading-snug">“Flag narrow doors on level 02.”</p>
+      <p className="mt-4 font-mono text-[9px] uppercase text-muted-foreground">
+        Scope: Level 02 · Sample model
+      </p>
+    </div>,
+    <ol key="2" className="border border-border font-mono text-[10px] uppercase">
+      {[
+        ["Inspect level 02", "Done"],
+        ["Compare door widths", "Done"],
+        ["3 elements found", "Flagged"],
+        ["Prepare proposed changes", "Ready"],
+      ].map(([a, b], i) => (
+        <li
+          key={a}
+          className="flex items-center justify-between gap-3 border-b border-border px-3 py-2 last:border-b-0"
+        >
+          <span>
+            <span className="text-muted-foreground">{String(i + 1).padStart(2, "0")}</span> {a}
+          </span>
+          <span className={i === 3 ? "text-primary" : "text-muted-foreground"}>{b}</span>
+        </li>
+      ))}
+    </ol>,
+    <div key="3" className="border border-border">
+      <div className="grid grid-cols-2">
+        {[
+          ["Before", "900", false],
+          ["Proposed", "920", true],
+        ].map(([k, v, on]) => (
+          <div key={k as string} className={`p-3 ${on ? "border-l border-border" : ""}`}>
+            <span className={`label ${on ? "text-primary" : "text-muted-foreground"}`}>{k}</span>
+            <svg viewBox="0 0 80 40" className="mt-2 w-full" fill="none" aria-hidden>
+              <path d="M4 34H24 M56 34H76" stroke="var(--foreground)" strokeWidth="1.5" />
+              <path
+                d={on ? "M24 34A30 30 0 0 1 54 4" : "M24 34A28 28 0 0 1 52 6"}
+                stroke="var(--border)"
+              />
+              <path
+                d={on ? "M24 34V4" : "M24 34V6"}
+                stroke={on ? "var(--primary)" : "var(--foreground)"}
+                strokeWidth="1.5"
+              />
+            </svg>
+            <p className={`display mt-1 text-2xl ${on ? "text-primary" : ""}`}>
+              {v as string}
+              <span className="ml-1 font-mono text-[10px] font-normal">mm</span>
+            </p>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center justify-between border-t border-border px-3 py-2">
+        <span className="label text-muted-foreground">3 sample elements</span>
+        <span className="label flex items-center gap-1.5 text-primary">
+          <span className="size-1.5 bg-primary" />
+          Awaiting approval
+        </span>
+      </div>
+    </div>,
   ];
-  return <section className="border-t border-border"><div className="flex flex-wrap items-end justify-between gap-4 p-6 md:p-8"><h2 className="display text-3xl md:text-5xl">From intent<br />to a reviewed edit.</h2><p className="label text-muted-foreground">Workflow study / Illustrative previews</p></div><ol className="grid md:grid-cols-3">{stages.map((s, i) => <li key={s.n} className="relative flex flex-col border-t border-border p-6 md:border-r md:p-8 last:border-r-0">{i < 2 && <span aria-hidden className="absolute -right-3 top-[52px] z-10 hidden size-6 place-items-center border border-border bg-background font-mono text-[11px] text-primary md:grid">→</span>}<div className="flex items-start justify-between"><span className="display text-6xl md:text-7xl text-primary">{s.n}</span><span className="label pt-2 text-muted-foreground">{s.l}</span></div><h3 className="display mt-5 text-2xl">{s.t}</h3><p className="mb-6 mt-2 text-sm text-muted-foreground">{s.note}</p><div className="mt-auto">{panels[i]}</div></li>)}</ol></section>;
+  return (
+    <section className="border-t border-border">
+      <div className="flex flex-wrap items-end justify-between gap-4 p-6 md:p-8">
+        <h2 className="display text-3xl md:text-5xl">
+          From intent
+          <br />
+          to a reviewed edit.
+        </h2>
+        <p className="label text-muted-foreground">Workflow study / Illustrative previews</p>
+      </div>
+      <ol className="grid md:grid-cols-3">
+        {stages.map((s, i) => (
+          <li
+            key={s.n}
+            className="relative flex flex-col border-t border-border p-6 md:border-r md:p-8 last:border-r-0"
+          >
+            {i < 2 && (
+              <span
+                aria-hidden
+                className="absolute -right-3 top-[52px] z-10 hidden size-6 place-items-center border border-border bg-background font-mono text-[11px] text-primary md:grid"
+              >
+                →
+              </span>
+            )}
+            <div className="flex items-start justify-between">
+              <span className="display text-6xl md:text-7xl text-primary">{s.n}</span>
+              <span className="label pt-2 text-muted-foreground">{s.l}</span>
+            </div>
+            <h3 className="display mt-5 text-2xl">{s.t}</h3>
+            <p className="mb-6 mt-2 text-sm text-muted-foreground">{s.note}</p>
+            <div className="mt-auto">{panels[i]}</div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
 }
 
 export function ClosingCTA() {
-  return <section className="grid border-t border-border md:grid-cols-[2fr_1fr]"><div className="p-6 md:p-8"><p className="label mb-4 text-primary">Less busywork. More design.</p><h2 className="display text-4xl md:text-6xl">Keep your focus<br />on the architecture.</h2></div><div className="flex flex-col justify-between gap-8 border-t border-border p-6 md:border-l md:border-t-0"><p className="max-w-sm text-sm">A clear request. A visible proposal. A decision that stays with you.</p><Button asChild className="label justify-between shadow-none"><Link to="/" hash="demo">Try the sample workflow <ArrowUpRight /></Link></Button></div></section>;
+  return (
+    <section className="grid border-t border-border md:grid-cols-[2fr_1fr]">
+      <div className="p-6 md:p-8">
+        <p className="label mb-4 text-primary">Less busywork. More design.</p>
+        <h2 className="display text-4xl md:text-6xl">
+          Keep your focus
+          <br />
+          on the architecture.
+        </h2>
+      </div>
+      <div className="flex flex-col justify-between gap-8 border-t border-border p-6 md:border-l md:border-t-0">
+        <p className="max-w-sm text-sm">
+          A clear request. A visible proposal. A decision that stays with you.
+        </p>
+        <Button asChild className="label justify-between shadow-none">
+          <Link to="/" hash="demo">
+            Try the sample workflow <ArrowUpRight />
+          </Link>
+        </Button>
+      </div>
+    </section>
+  );
 }
 
 export function HomeStory() {
-  return <>
-    <section className="grid border-t border-border md:grid-cols-2"><div className="flex flex-col justify-between gap-8 p-6 md:p-8"><div><p className="label mb-4 text-muted-foreground">Your AI design agent, right in the tool</p><h2 className="display text-4xl md:text-6xl">Ask, and Heron<br />does it for you.</h2></div><div className="max-w-md"><p className="text-sm leading-relaxed">Keep the request close to the model. See what needs attention, compare a proposed edit, and review the result before it becomes part of the project.</p><Link to="/heron-chat-widget" className="label mt-6 inline-flex text-primary">Explore Chat Widget ↗</Link></div></div><img src={tower} width={1200} height={1008} alt="Architectural tower drawing with vermilion geometry" loading="lazy" className="aspect-[6/5] w-full border-t border-border object-cover mix-blend-multiply md:border-l md:border-t-0"/></section>
-    <Workflow />
-    <section className="grid border-t border-border md:grid-cols-[1.15fr_1fr]"><div className="flex items-center border-b border-border md:border-b-0"><img src={workflow} width={1200} height={912} alt="Exploded architectural model with separated floor plates" loading="lazy" className="aspect-[4/3] w-full object-cover mix-blend-multiply"/></div><div className="flex flex-col border-border md:border-l"><div className="p-6 md:p-8"><p className="label mb-4 text-primary">One project. A clear view.</p><h2 className="display text-3xl lg:text-[2.6rem]">See every change,<br />flag, and approval<br />in one place.</h2><p className="mt-6 max-w-sm text-sm leading-relaxed">From a model issue to a proposed edit, keep the review trail connected to the work.</p></div><ol className="mt-auto border-t border-border font-mono text-[10px] uppercase">{[['Flag', 'Narrow doors · Level 02', 'Raised'], ['Change', 'Door width 900 → 920 mm', 'Proposed'], ['Approval', 'Sample model', 'Pending']].map(([k, d, st], i) => <li key={k} className="grid grid-cols-[72px_1fr_auto] gap-3 border-b border-border px-6 py-3 md:px-8"><span className="text-muted-foreground">{k}</span><span>{d}</span><span className={i === 2 ? 'text-primary' : 'text-muted-foreground'}>{st}</span></li>)}</ol><div className="p-6 md:px-8"><Link to="/heron-dashboard" className="label inline-flex text-primary">Explore Dashboard ↗</Link></div></div></section>
-    <TaskDemo />
-    <FaqSection />
-    <section className="border-t border-border"><div className="flex flex-wrap items-end justify-between gap-6 p-6 md:p-8"><h2 className="display text-3xl md:text-5xl">Notes from<br />the design desk.</h2><Link to="/resources" className="label text-primary">All resources ↗</Link></div><div className="grid sm:grid-cols-3">{[articles[0]!,articles[4]!,articles[5]!].map(a => <Link key={a.slug} to="/resources/$slug" params={{slug:a.slug}} className="group border-t border-border p-6 sm:border-r last:border-r-0"><img src={a.image} width={1200} height={912} loading="lazy" alt="Architectural editorial composition" className="aspect-[4/3] w-full object-cover mix-blend-multiply transition-opacity group-hover:opacity-80"/><p className="label mt-4 text-muted-foreground">Sample editorial / {a.category.replaceAll('-',' ')}</p><h3 className="display mt-2 text-xl">{a.title} ↗</h3></Link>)}</div></section>
-    <ClosingCTA />
-  </>;
+  return (
+    <>
+      <section className="grid border-t border-border md:grid-cols-2">
+        <div className="flex flex-col justify-between gap-8 p-6 md:p-8">
+          <div>
+            <p className="label mb-4 text-muted-foreground">
+              Your AI design agent, right in the tool
+            </p>
+            <h2 className="display text-4xl md:text-6xl">
+              Ask, and Heron
+              <br />
+              does it for you.
+            </h2>
+          </div>
+          <div className="max-w-md">
+            <p className="text-sm leading-relaxed">
+              Keep the request close to the model. See what needs attention, compare a proposed
+              edit, and review the result before it becomes part of the project.
+            </p>
+            <Link to="/heron-chat-widget" className="label mt-6 inline-flex text-primary">
+              Explore Chat Widget ↗
+            </Link>
+          </div>
+        </div>
+        <img
+          src={tower}
+          width={1200}
+          height={1008}
+          alt="Architectural tower drawing with vermilion geometry"
+          loading="lazy"
+          className="aspect-[6/5] w-full border-t border-border object-cover mix-blend-multiply md:border-l md:border-t-0"
+        />
+      </section>
+      <Workflow />
+      <section className="grid border-t border-border md:grid-cols-[1.15fr_1fr]">
+        <div className="flex items-center border-b border-border md:border-b-0">
+          <img
+            src={workflow}
+            width={1200}
+            height={912}
+            alt="Exploded architectural model with separated floor plates"
+            loading="lazy"
+            className="aspect-[4/3] w-full object-cover mix-blend-multiply"
+          />
+        </div>
+        <div className="flex flex-col border-border md:border-l">
+          <div className="p-6 md:p-8">
+            <p className="label mb-4 text-primary">One project. A clear view.</p>
+            <h2 className="display text-3xl lg:text-[2.6rem]">
+              See every change,
+              <br />
+              flag, and approval
+              <br />
+              in one place.
+            </h2>
+            <p className="mt-6 max-w-sm text-sm leading-relaxed">
+              From a model issue to a proposed edit, keep the review trail connected to the work.
+            </p>
+          </div>
+          <ol className="mt-auto border-t border-border font-mono text-[10px] uppercase">
+            {[
+              ["Flag", "Narrow doors · Level 02", "Raised"],
+              ["Change", "Door width 900 → 920 mm", "Proposed"],
+              ["Approval", "Sample model", "Pending"],
+            ].map(([k, d, st], i) => (
+              <li
+                key={k}
+                className="grid grid-cols-[72px_1fr_auto] gap-3 border-b border-border px-6 py-3 md:px-8"
+              >
+                <span className="text-muted-foreground">{k}</span>
+                <span>{d}</span>
+                <span className={i === 2 ? "text-primary" : "text-muted-foreground"}>{st}</span>
+              </li>
+            ))}
+          </ol>
+          <div className="p-6 md:px-8">
+            <Link to="/heron-dashboard" className="label inline-flex text-primary">
+              Explore Dashboard ↗
+            </Link>
+          </div>
+        </div>
+      </section>
+      <TaskDemo />
+      <FaqSection />
+      <section className="border-t border-border">
+        <div className="flex flex-wrap items-end justify-between gap-6 p-6 md:p-8">
+          <h2 className="display text-3xl md:text-5xl">
+            Notes from
+            <br />
+            the design desk.
+          </h2>
+          <Link to="/resources" className="label text-primary">
+            All resources ↗
+          </Link>
+        </div>
+        <div className="grid sm:grid-cols-3">
+          {[articles[0]!, articles[4]!, articles[5]!].map((a) => (
+            <Link
+              key={a.slug}
+              to="/resources/$slug"
+              params={{ slug: a.slug }}
+              className="group border-t border-border p-6 sm:border-r last:border-r-0"
+            >
+              <img
+                src={a.image}
+                width={1200}
+                height={912}
+                loading="lazy"
+                alt="Architectural editorial composition"
+                className="aspect-[4/3] w-full object-cover mix-blend-multiply transition-opacity group-hover:opacity-80"
+              />
+              <p className="label mt-4 text-muted-foreground">
+                Sample editorial / {a.category.replaceAll("-", " ")}
+              </p>
+              <h3 className="display mt-2 text-xl">{a.title} ↗</h3>
+            </Link>
+          ))}
+        </div>
+      </section>
+      <ClosingCTA />
+    </>
+  );
 }
