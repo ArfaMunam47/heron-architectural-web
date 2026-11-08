@@ -13,6 +13,6 @@
 - Use an index route for the resource collection so it remains a sibling of article detail pages rather than a parent without an Outlet.
 - Product demos and approval previews are frontend-only state machines; never imply they edit a real model or call live AI.
 - Mount the shared footer once in the root layout so all content pages have consistent navigation.
-- Keep the decorative pointer follower isolated from native input and model-selection pointers, and idle its animation when stationary, to preserve precision and avoid unnecessary motion.
+- Keep one cursor listener system with an exact pointer-position layer and separately eased ring; preserve native input, selection, model, mobile and reduced-motion pointers, and stop animation when settled.
 - Keep the homepage construction grid, traced elevation and rendered building in one shared SVG image coordinate system; reveal the render only after the line drawing so both stages stay aligned at every viewport size.
 - Keep window-detail state and SVG animation isolated in WindowDetail, overlaying the existing plan viewport so it cannot alter model geometry, task state or surrounding layout.

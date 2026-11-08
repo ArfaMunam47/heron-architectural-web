@@ -16,3 +16,4 @@
 - [x] Make navigation respond on first click and rebalance homepage section hierarchy and spacing.
 - [x] Add the isolated click-to-reveal window detail without changing the floor plan or task workflow.
 - [x] Verify window reveal, return, repetition, reduced motion and desktop/phone presentation.
+- [x] Refine only the cursor into a precise dot and subtle ring; verify pointer accuracy, navigation, forms, selection, scrolling and mobile exceptions.
